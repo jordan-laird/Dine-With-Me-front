@@ -18,8 +18,8 @@ export class Login extends React.Component {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        localStorage.setItem('token', result.json.token);
-        localStorage.setItem('userID', result.json.user.id);
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('userID', result.user.id);
         this.goTo('/home');
       });
   };

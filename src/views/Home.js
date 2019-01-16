@@ -22,20 +22,20 @@ export class Home extends React.Component {
     this.fetchUserInfo();
   }
 
-  setSubscribe = (controllerArray) => {
-    controllerArray.forEach((controller) =>
-      api.subscribe(
-        controller,
-        'index',
-        { Authorization: `BEARER ${localStorage.token}` },
-        (users) => {
-          console.log('Received:', users);
-        }
-      )
-    );
-  };
+  // setSubscribe = (controllerArray) => {
+  //   controllerArray.forEach((controller) =>
+  //     api.subscribe(
+  //       controller,
+  //       'index',
+  //       { Authorization: `BEARER ${localStorage.token}` },
+  //       (users) => {
+  //         console.log('Received:', users);
+  //       }
+  //     )
+  //   );
+  // };
   render() {
-    this.setSubscribe(controllers);
+    // this.setSubscribe(controllers);
     if (this.state.user) {
       return <Container>{this.state.user.first_name}</Container>;
     } else {

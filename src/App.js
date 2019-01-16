@@ -23,7 +23,9 @@ class App extends Component {
     );
   };
   render() {
-    this.setSubscribe(controllers);
+    if (localStorage.token) {
+      this.setSubscribe(controllers);
+    }
     return (
       <BrowserRouter>
         <Switch>
