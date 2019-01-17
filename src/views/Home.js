@@ -6,11 +6,49 @@ const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 let controllers = ['Users', 'Invites', 'Messages', 'Meals'];
 
+const allRestaurants = [];
 export class Home extends React.Component {
   state = {
-    user: null,
+    user: {
+      lat: 0,
+      long: 0
+    },
     restaurantList: []
   };
+
+  calculateDistance = (lat1, lat2, long1, long2) => {
+    console.log(lat1, lat2, long1, long2);
+    let radLat1 = (Math.PI * lat1) / 180;
+    let radLat2 = (Math.PI * lat2) / 180;
+    let theta = long1 - long2;
+    let radTheta = (Math.PI * theta) / 180;
+    let distance =
+      Math.sin(radLat1) * Math.sin(radLat2) +
+      Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radTheta);
+    if (distance > 1) {
+      distance = 1;
+    }
+    let dist = Math.acos(distance);
+    dist = (dist * 180) / Math.PI;
+    dist = dist * 60 * 1.1515;
+    dist = Number(dist.toFixed(2));
+    return dist;
+  };
+
+  // setRestDist = (restaurantList) => {
+  //   restaurantList.map(
+  //     (restaurant) =>
+  //       (restaurant.distance = this.calculateDistance(
+  //         this.state.user.lat,
+  //         restaurant.geometry.location.lat,
+  //         this.state.user.long,
+  //         restaurant.geometry.location.lng
+  //       ))
+  //   );
+  //   this.setState({
+  //     restaurantList: restaurantList
+  //   });
+  // };
 
   fetchUserInfo = () => {
     api.subscribe(
@@ -43,14 +81,26 @@ export class Home extends React.Component {
   };
 
   fetchNearbyRestaurants = () => {
-    api.subscribe(
+    // allRestaurants = [];
+    return api.subscribe(
       'Restaurants',
-      'index',
+      'create',
       {
+        lat: this.state.user.lat,
+        long: this.state.user.long,
         Authorization: `BEARER ${localStorage.token}`
       },
-      (restaurants) =>
-        this.setState({ restaurantList: [...restaurants.results] })
+      (restaurants) => {
+        // restaurants.results.map((r) => {
+        //   allRestaurants.push(r);
+        // // });
+        // allRestaurants = Array.from(restaurants.results);
+        // console.log('fetchNearbyRestaurants', allRestaurants.length);
+
+        this.setState({
+          restaurantList: restaurants
+        });
+      }
     );
   };
 
@@ -58,7 +108,7 @@ export class Home extends React.Component {
 
   componentDidMount() {
     this.fetchUserInfo();
-    this.fetchNearbyRestaurants();
+
     controllers.forEach((controller) =>
       api.subscribe(
         controller,
@@ -66,25 +116,31 @@ export class Home extends React.Component {
         { Authorization: `BEARER ${localStorage.token}` },
         (users) => {
           console.log('Received:', users);
+          this.fetchNearbyRestaurants();
         }
       )
     );
   }
   render() {
+    console.log(allRestaurants);
+
     if (this.state.user) {
       console.log(this.state.user);
       return (
         <Container>
-          {this.state.user.json.first_name}
+          {this.state.user.first_name}
           <br />
-          {this.state.user.json.lat}
+          {this.state.user.lat}
           <br />
           {this.state.user.long}
           <br />
           <Button color="teal" onClick={() => this.getLocation()}>
             Set Location
           </Button>
-          <RestaurantsList restaurantList={this.state.restaurantList} />
+          <RestaurantsList
+            user={this.state.user}
+            restaurantList={this.state.restaurantList}
+          />
         </Container>
       );
     } else {

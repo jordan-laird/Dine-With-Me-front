@@ -7,7 +7,11 @@ export class RestaurantsList extends React.Component {
     return (
       <Container>
         {this.props.restaurantList.map((restaurant) => (
-          <RestaurantContainer restaurant={restaurant} key={restaurant.id} />
+          <RestaurantContainer
+            user={this.props.user}
+            restaurant={restaurant}
+            key={restaurant.id}
+          />
         ))}
       </Container>
     );

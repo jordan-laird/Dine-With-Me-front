@@ -3,10 +3,12 @@ import { Container } from 'semantic-ui-react';
 
 export class RestaurantContainer extends React.Component {
   render() {
-    console.log(this.props.restaurant);
     return (
-      <Container>
+      <Container style={{ marginTop: 3 }}>
         <h2>{this.props.restaurant.name}</h2>
+        <p>
+          Distance: {Number(this.props.restaurant.distance).toFixed(2)} miles
+        </p>
       </Container>
     );
   }
