@@ -5,7 +5,7 @@ import { RestaurantsList } from '../components/RestaurantsList.js';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 let controllers = ['Users', 'Invites', 'Messages', 'Meals'];
-
+let filteredUserList = [];
 const allRestaurants = [];
 export class Home extends React.Component {
   state = {
@@ -34,21 +34,6 @@ export class Home extends React.Component {
     dist = Number(dist.toFixed(2));
     return dist;
   };
-
-  // setRestDist = (restaurantList) => {
-  //   restaurantList.map(
-  //     (restaurant) =>
-  //       (restaurant.distance = this.calculateDistance(
-  //         this.state.user.lat,
-  //         restaurant.geometry.location.lat,
-  //         this.state.user.long,
-  //         restaurant.geometry.location.lng
-  //       ))
-  //   );
-  //   this.setState({
-  //     restaurantList: restaurantList
-  //   });
-  // };
 
   fetchUserInfo = () => {
     api.subscribe(
@@ -81,7 +66,6 @@ export class Home extends React.Component {
   };
 
   fetchNearbyRestaurants = () => {
-    // allRestaurants = [];
     return api.subscribe(
       'Restaurants',
       'create',
@@ -91,17 +75,26 @@ export class Home extends React.Component {
         Authorization: `BEARER ${localStorage.token}`
       },
       (restaurants) => {
-        // restaurants.results.map((r) => {
-        //   allRestaurants.push(r);
-        // // });
-        // allRestaurants = Array.from(restaurants.results);
-        // console.log('fetchNearbyRestaurants', allRestaurants.length);
-
         this.setState({
           restaurantList: restaurants
         });
       }
     );
+  };
+
+  fetchNearbyUsers = (userList) => {
+    console.log('fetchUsers', userList);
+    filteredUserList = userList.filter(
+      (user) =>
+        user.id != localStorage.userID &&
+        this.calculateDistance(
+          user.lat,
+          this.state.user.lat,
+          user.long,
+          this.state.user.long
+        ) < 5
+    );
+    return filteredUserList;
   };
 
   // api.trigger('Users', 'update', {id: 1, email: "test3", password:"123", first_name:"Jordan!", last_name:"Laird", Authorization: `BEARER ${localStorage.token}`}, console.log)
@@ -117,6 +110,9 @@ export class Home extends React.Component {
         (users) => {
           console.log('Received:', users);
           this.fetchNearbyRestaurants();
+          if (controller === 'Users') {
+            this.fetchNearbyUsers(users);
+          }
         }
       )
     );
@@ -125,7 +121,7 @@ export class Home extends React.Component {
     console.log(allRestaurants);
 
     if (this.state.user) {
-      console.log(this.state.user);
+      console.log('RENDERED', filteredUserList);
       return (
         <Container>
           {this.state.user.first_name}
@@ -135,7 +131,7 @@ export class Home extends React.Component {
           {this.state.user.long}
           <br />
           <Button color="teal" onClick={() => this.getLocation()}>
-            Set Location
+            Nearby Restaurants
           </Button>
           <RestaurantsList
             user={this.state.user}
