@@ -123,21 +123,23 @@ export class Home extends React.Component {
     if (this.state.user) {
       console.log('RENDERED', filteredUserList);
       return (
-        <Container>
-          {this.state.user.first_name}
-          <br />
-          {this.state.user.lat}
-          <br />
-          {this.state.user.long}
-          <br />
-          <Button color="teal" onClick={() => this.getLocation()}>
-            Nearby Restaurants
-          </Button>
-          <RestaurantsList
-            user={this.state.user}
-            restaurantList={this.state.restaurantList}
-          />
-        </Container>
+        <div style={{ marginTop: 100 }}>
+          <Container>
+            {this.state.user.first_name}
+            <br />
+            {this.state.user.lat}
+            <br />
+            {this.state.user.long}
+            <br />
+            <Button onClick={() => this.getLocation()}>
+              Nearby Restaurants
+            </Button>
+            <RestaurantsList
+              user={this.state.user}
+              restaurantList={this.state.restaurantList}
+            />
+          </Container>
+        </div>
       );
     } else {
       return null;
