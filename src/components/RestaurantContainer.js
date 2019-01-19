@@ -4,7 +4,12 @@ import { DateTimeFormInline } from './CalendarForm'
 
 export class RestaurantContainer extends React.Component {
   state = {
+    open: false,
     expanded: false
+  }
+
+  goTo = (url) => {
+    this.props.history.push(url);
   };
   render() {
     return (
@@ -21,11 +26,11 @@ export class RestaurantContainer extends React.Component {
         <Card.Content extra>
           <div className="ui two buttons">
             <Button onClick={() => this.setState({ expanded: !this.state.expanded })}>Restaurant Information</Button>
-            <Modal trigger={<Button>Request Date</Button>}>
+            <Modal trigger={<Button>Request Date</Button>} closeIcon>
               <Modal.Header>
                 Schedule Meal at {this.props.restaurant.name}
               </Modal.Header>
-              <Modal.Content><DateTimeFormInline /></Modal.Content>
+              <Modal.Content>{this.props.history}<DateTimeFormInline /></Modal.Content>
               {/* <Modal.Content image>
                 <Image wrapped size="medium" src={currentCompanyLogo} />
                 <Modal.Description>
@@ -33,6 +38,10 @@ export class RestaurantContainer extends React.Component {
                   <PurchaseShareForm {...this.props} history={this.props.history} />
                 </Modal.Description>
               </Modal.Content> */}
+              <Modal.Actions>
+                <Button onClick={() => this.goTo("/messages")}>Submit Invite</Button>
+                <Button onClick={() => this.close}>Cancel Request</Button>
+              </Modal.Actions>
             </Modal>
           </div>
         </Card.Content>
