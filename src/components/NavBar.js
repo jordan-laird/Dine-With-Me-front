@@ -1,8 +1,27 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Container, Menu, Icon } from 'semantic-ui-react';
-
+import WarpCable from 'warp-cable-client';
+const API_DOMAIN = 'ws://localhost:3000/cable';
+let api = WarpCable(API_DOMAIN);
 class _NavBar extends React.Component {
+  state = {};
+
+  async componentDidMount() {
+    let unreadMessages = [];
+    api.subscribe(
+      'Messages',
+      'create',
+      {
+        id: localStorage.userID,
+        Authorization: `BEARER ${localStorage.token}`
+      },
+      (messages) => unreadMessages.push(messages),
+      console.log(`unreadMessages`, unreadMessages),
+      await this.setState({ unreadMessages })
+    );
+  }
+
   render() {
     return (
       <div>
@@ -24,7 +43,9 @@ class _NavBar extends React.Component {
             ) : null}
             {localStorage.getItem('token') ? (
               <Menu.Item as="a" onClick={() => this.goTo(`/messages`)}>
-                Messages
+                {this.state.unreadMessages
+                  ? `Messages ( ${this.state.unreadMessages.length} )`
+                  : null}
               </Menu.Item>
             ) : null}
             {/* <Menu.Item as="a" onClick={() => this.goTo(`/login`)}>
