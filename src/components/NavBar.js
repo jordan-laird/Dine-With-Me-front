@@ -4,22 +4,27 @@ import { Container, Menu, Icon } from 'semantic-ui-react';
 import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
+let unreadMessages = [];
 class _NavBar extends React.Component {
-  state = {};
+  state = {
+    messages: []
+  };
 
-  async componentDidMount() {
-    let unreadMessages = [];
+  componentDidMount() {
     api.subscribe(
       'Messages',
-      'create',
+      'index',
       {
         id: localStorage.userID,
         Authorization: `BEARER ${localStorage.token}`
       },
-      (messages) => unreadMessages.push(messages),
-      console.log(`unreadMessages`, unreadMessages),
-      await this.setState({ unreadMessages })
+      (messages) => this.setState({ messages })
     );
+  }
+
+  filterMessages = () => {
+    if (this.state.messages ? unreadMessages = this.state.messages.filter(message => message.receiver_id == localStorage.userID && message.unread === true) : null)
+      return unreadMessages.length
   }
 
   render() {
@@ -43,9 +48,9 @@ class _NavBar extends React.Component {
             ) : null}
             {localStorage.getItem('token') ? (
               <Menu.Item as="a" onClick={() => this.goTo(`/messages`)}>
-                {this.state.unreadMessages
-                  ? `Messages ( ${this.state.unreadMessages.length} )`
-                  : null}
+                {this.state.messages
+                  ? `Messages ( ${this.filterMessages()} )`
+                  : "NOT MOUNTING"}
               </Menu.Item>
             ) : null}
             {/* <Menu.Item as="a" onClick={() => this.goTo(`/login`)}>
