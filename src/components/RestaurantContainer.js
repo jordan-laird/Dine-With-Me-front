@@ -1,15 +1,51 @@
 import React from 'react';
-import { Container } from 'semantic-ui-react';
+import { Container, Form, Button, Card, Modal } from 'semantic-ui-react';
+import { DateTimeFormInline } from './CalendarForm'
 
 export class RestaurantContainer extends React.Component {
+  state = {
+    open: false,
+    expanded: false
+  }
+
+  goTo = (url) => {
+    this.props.history.push(url);
+  };
   render() {
     return (
-      <Container style={{ marginTop: 3 }}>
-        <h2>{this.props.restaurant.name}</h2>
-        <p>
-          Distance: {Number(this.props.restaurant.distance).toFixed(2)} miles
-        </p>
-      </Container>
+      <Card>
+        <Card.Content>
+          <Card.Header>
+            <h3>{this.props.restaurant.name}</h3>
+          </Card.Header>
+
+          <Card.Description>
+            Distance: {Number(this.props.restaurant.distance).toFixed(2)} miles
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <div className="ui two buttons">
+            <Button onClick={() => this.setState({ expanded: !this.state.expanded })}>Restaurant Information</Button>
+            <Modal trigger={<Button>Request Date</Button>} closeIcon>
+              <Modal.Header>
+                Schedule Meal at {this.props.restaurant.name}
+              </Modal.Header>
+              <Modal.Content>{this.props.history}<DateTimeFormInline /></Modal.Content>
+              {/* <Modal.Content image>
+                <Image wrapped size="medium" src={currentCompanyLogo} />
+                <Modal.Description>
+                  <Header>Purchase Details</Header>
+                  <PurchaseShareForm {...this.props} history={this.props.history} />
+                </Modal.Description>
+              </Modal.Content> */}
+              <Modal.Actions>
+                <Button onClick={() => this.goTo("/messages")}>Submit Invite</Button>
+                <Button onClick={() => this.close}>Cancel Request</Button>
+              </Modal.Actions>
+            </Modal>
+          </div>
+        </Card.Content>
+      </Card>
     );
   }
 }
