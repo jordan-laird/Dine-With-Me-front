@@ -2,6 +2,7 @@ import React from 'react'
 import { Segment, Card } from 'semantic-ui-react'
 import { Invite } from '../components/Invite.js'
 import WarpCable from 'warp-cable-client';
+import * as moment from 'moment';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
@@ -13,11 +14,11 @@ export class MyInvites extends React.Component {
   }
 
   fetchMySentInvites = (invites) => {
-    let mySentInvites = invites.filter(invite => invite.sender_id == localStorage.userID)
+    let mySentInvites = invites.filter(invite => invite.sender_id == localStorage.userID && moment().isBefore(moment(invite.meal.starts_at)))
     this.setState({ sentInvites: mySentInvites })
   }
   fetchMyReceivedInvites = (invites) => {
-    let myReceivedInvites = invites.filter(invite => invite.receiver_id == localStorage.userID)
+    let myReceivedInvites = invites.filter(invite => invite.receiver_id == localStorage.userID && moment().isBefore(moment(invite.meal.starts_at)))
     this.setState({ receivedInvites: myReceivedInvites })
   }
 
@@ -36,14 +37,27 @@ export class MyInvites extends React.Component {
     )
   }
   render() {
-    console.log("MYSENTINVITES", this.state.sentInvites)
-    console.log("MYRECEIVED", this.state.receivedInvites)
     return (
-      <Card.Group style={{ marginTop: 100 }}>
-        {this.state.receivedInvites.map(invite =>
-          <Invite invite={invite}></Invite>)}
+      <div>
+        <Segment style={{ marginTop: 100, marginBottom: 30 }}>
+          <h2>Received Invites</h2>
+          <Card.Group style={{ marginTop: 100 }}>
+            {this.state.receivedInvites.map(invite =>
+              <Invite invite={invite}></Invite>)}
 
-      </Card.Group>
+          </Card.Group>
+        </Segment>
+        <Segment>
+          <h2>Sent Invites</h2>
+          <Card.Group style={{ marginTop: 100 }}>
+            {this.state.sentInvites.map(invite =>
+              <Invite invite={invite}></Invite>)}
+
+          </Card.Group>
+
+        </Segment>
+
+      </div>
     )
   }
 

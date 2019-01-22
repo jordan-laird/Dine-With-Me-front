@@ -7,6 +7,7 @@ import { NavBar } from './components/NavBar.js';
 import { Inbox } from './views/Inbox.js'
 import { Signup } from './views/Signup.js';
 import { MyInvites } from './views/MyInvites.js'
+import { MyMeals } from './views/MyMeals.js'
 import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
@@ -23,6 +24,7 @@ class App extends Component {
             <Route path="/home" component={Home} />
             <Route path="/inbox" component={Inbox} />
             <Route path="/myinvites" component={MyInvites} />
+            <Route path="/mymeals" component={MyMeals} />
           </Switch>
         </div>
       </BrowserRouter>

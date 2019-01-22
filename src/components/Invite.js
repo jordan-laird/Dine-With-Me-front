@@ -52,7 +52,6 @@ export class Invite extends React.Component {
     this.fetchMealInfo()
   }
   render() {
-    console.log(this.state.mealInfo)
     return (
       <Card>
         <Card.Content>
@@ -73,17 +72,12 @@ export class Invite extends React.Component {
             </p>
           </Card.Description>
         </Card.Content>
-        {this.props.invite.status == "pending" ?
+        {(this.props.invite.status == "pending" && this.props.invite.receiver_id == localStorage.userID) ?
           <Card.Content extra>
             <Button onClick={this.changeStatus} value="accepted">Accept</Button>
             <Button onClick={this.changeStatus} value="denied">Deny</Button>
-          </Card.Content> : <Card.Content extra>{this.props.invite.status}</Card.Content>
+          </Card.Content> : <Card.Content extra>{this.props.invite.status.charAt(0).toUpperCase() + this.props.invite.status.slice(1)}</Card.Content>
         }
-        {/* {(this.props.invite.status == "pending" ?
-          <Button>Accept</Button>
-          <Button>Deny</Button> : null)} */}
-
-
       </Card>
     )
   }

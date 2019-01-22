@@ -66,13 +66,13 @@ class _NavBar extends React.Component {
                 Home
               </Menu.Item>
             ) : null}
-            {localStorage.getItem('token') ? (
+            {/* {localStorage.getItem('token') ? (
               <Menu.Item as="a" onClick={() => this.goTo(`/inbox`)}>
                 {this.state.messages
                   ? `Inbox ( ${this.filterMessages()} )`
                   : "Inbox"}
               </Menu.Item>
-            ) : null}
+            ) : null} */}
             {localStorage.getItem('token') ? (
               <Menu.Item as="a" onClick={() => this.goTo(`/myinvites`)}>
                 {this.state.messages
@@ -81,7 +81,7 @@ class _NavBar extends React.Component {
               </Menu.Item>
             ) : null}
             {localStorage.getItem('token') ? (
-              <Menu.Item as="a" onClick={() => this.goTo(`/inbox`)}>
+              <Menu.Item as="a" onClick={() => this.goTo(`/mymeals`)}>
                 {this.state.messages
                   ? `Upcoming Meals ( ${this.filterAcceptedInvites()} )`
                   : "Upcoming Meals"}
