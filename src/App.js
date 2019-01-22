@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 // import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import WarpCable from 'warp-cable-client';
 import { Login } from './views/Login.js';
 import { Home } from './views/Home.js';
 import { NavBar } from './components/NavBar.js';
 import { Inbox } from './views/Inbox.js'
 import { Signup } from './views/Signup.js';
+import { MyInvites } from './views/MyInvites.js'
+import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
@@ -21,6 +22,7 @@ class App extends Component {
             <Route path="/register" component={Signup} />
             <Route path="/home" component={Home} />
             <Route path="/inbox" component={Inbox} />
+            <Route path="/myinvites" component={MyInvites} />
           </Switch>
         </div>
       </BrowserRouter>

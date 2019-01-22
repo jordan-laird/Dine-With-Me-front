@@ -74,7 +74,7 @@ class _NavBar extends React.Component {
               </Menu.Item>
             ) : null}
             {localStorage.getItem('token') ? (
-              <Menu.Item as="a" onClick={() => this.goTo(`/inbox`)}>
+              <Menu.Item as="a" onClick={() => this.goTo(`/myinvites`)}>
                 {this.state.messages
                   ? `Pending Invites ( ${this.filterPendingInvites()} )`
                   : "Pending Invites"}

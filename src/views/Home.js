@@ -96,25 +96,8 @@ export class Home extends React.Component {
   };
 
   // api.trigger('Users', 'update', {id: 1, email: "test3", password:"123", first_name:"Jordan!", last_name:"Laird", Authorization: `BEARER ${localStorage.token}`}, console.log)
-  subscribeController = (controller, stateItem) => {
-    api.subscribe(
-      controller,
-      'index',
-      {
-        Authorization: `BEARER ${localStorage.token}`,
-        userID: localStorage.userID
-      },
-      (response) => {
-        // {this.setState{ stateItem: response }};
-        this.fetchNearbyRestaurants();
-        if (controller === 'Users') {
-          this.fetchNearbyUsers(response);
-        }
-      }
-    );
-  };
-  componentDidMount() {
-    this.fetchUserInfo();
+  async componentDidMount() {
+    await this.fetchUserInfo();
 
     controllers.forEach((controller) =>
       api.subscribe(

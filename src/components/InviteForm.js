@@ -16,13 +16,15 @@ moment.locale('ru')
 
 export class InviteForm extends React.Component {
   state = {
-    dateTime: "",
-    randomUser: {}
-  }
-  handleChange = (event, { name, value }) => {
-    if (this.state.hasOwnProperty(name)) {
-      this.setState({ [name]: value });
+    dateTime: {},
+    randomUser: {
+      first_name: "Bob"
     }
+  }
+  handleChange = (e, { name, value }) => {
+    e.persist();
+    let inviteTime = value
+    this.setState({ [name]: inviteTime })
   }
 
   selectUser = () => {
@@ -47,6 +49,7 @@ export class InviteForm extends React.Component {
   }
 
   createMealInvite = (e) => {
+    console.log(this.state.dateTime)
     api.trigger(
       "Meals",
       "create",
@@ -54,7 +57,7 @@ export class InviteForm extends React.Component {
         restaurant_name: e.target.restaurantName.value,
         restaurant_address: "EXAMPLE 123",
         restaurant_phone: "867-5309",
-        starts_at: e.target.dateTime.value,
+        starts_at: this.state.dateTime,
         sender_id: localStorage.userID,
         receiver_id: this.state.randomUser.id
       }
@@ -68,7 +71,7 @@ export class InviteForm extends React.Component {
         <Form.Input fluid label="Nearby Diner" name="selectedUser" value={this.state.randomUser.first_name} readOnly />
         <DateTimeInput
           name="dateTime"
-          placeholder="Date Time"
+          placeholder="Date/Time"
           value={this.state.dateTime}
           iconPosition="left"
           minDate={moment()}

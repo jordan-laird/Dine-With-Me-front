@@ -40,9 +40,9 @@ export class RestaurantContainer extends React.Component {
                   <PurchaseShareForm {...this.props} history={this.props.history} />
                 </Modal.Description>
               </Modal.Content> */}
-              <Modal.Actions>
+              {/* <Modal.Actions>
                 <Button onClick={() => this.goTo("/messages")}>Submit Invite</Button>
-              </Modal.Actions>
+              </Modal.Actions> */}
             </Modal>
           </div>
         </Card.Content>
