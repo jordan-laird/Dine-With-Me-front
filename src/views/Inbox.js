@@ -48,7 +48,7 @@ export class Inbox extends React.Component {
     { this.filterMessages() }
     return (
       <div>
-        {this.state.messages.map(message => (
+        {this.state.message.sender.first_name && this.state.messages.map(message => (
           message.sender.first_name
         ))}
 
