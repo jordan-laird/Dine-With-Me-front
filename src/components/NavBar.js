@@ -5,9 +5,12 @@ import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 let unreadMessages = [];
+let pendingInvites = [];
+let acceptedInvites = [];
 class _NavBar extends React.Component {
   state = {
-    messages: []
+    messages: [],
+    invites: []
   };
 
   componentDidMount() {
@@ -20,11 +23,28 @@ class _NavBar extends React.Component {
       },
       (messages) => this.setState({ messages })
     );
+    api.subscribe(
+      'Invites',
+      'index',
+      {
+        id: localStorage.userID,
+        Authorization: `BEARER ${localStorage.token}`
+      },
+      (invites) => this.setState({ invites })
+    );
   }
 
   filterMessages = () => {
     if (this.state.messages ? unreadMessages = this.state.messages.filter(message => message.receiver_id == localStorage.userID && message.unread === true) : null)
       return unreadMessages.length
+  }
+  filterPendingInvites = () => {
+    if (this.state.invites ? pendingInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending") : null)
+      return pendingInvites.length
+  }
+  filterAcceptedInvites = () => {
+    if (this.state.invites ? acceptedInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "accepted") : null)
+      return acceptedInvites.length
   }
 
   render() {
@@ -47,10 +67,24 @@ class _NavBar extends React.Component {
               </Menu.Item>
             ) : null}
             {localStorage.getItem('token') ? (
-              <Menu.Item as="a" onClick={() => this.goTo(`/messages`)}>
+              <Menu.Item as="a" onClick={() => this.goTo(`/inbox`)}>
                 {this.state.messages
-                  ? `Messages ( ${this.filterMessages()} )`
-                  : "NOT MOUNTING"}
+                  ? `Inbox ( ${this.filterMessages()} )`
+                  : "Inbox"}
+              </Menu.Item>
+            ) : null}
+            {localStorage.getItem('token') ? (
+              <Menu.Item as="a" onClick={() => this.goTo(`/inbox`)}>
+                {this.state.messages
+                  ? `Pending Invites ( ${this.filterPendingInvites()} )`
+                  : "Pending Invites"}
+              </Menu.Item>
+            ) : null}
+            {localStorage.getItem('token') ? (
+              <Menu.Item as="a" onClick={() => this.goTo(`/inbox`)}>
+                {this.state.messages
+                  ? `Upcoming Meals ( ${this.filterAcceptedInvites()} )`
+                  : "Upcoming Meals"}
               </Menu.Item>
             ) : null}
             {/* <Menu.Item as="a" onClick={() => this.goTo(`/login`)}>
@@ -66,7 +100,7 @@ class _NavBar extends React.Component {
             ) : null}
           </Container>
         </Menu>
-      </div>
+      </div >
     );
   }
 

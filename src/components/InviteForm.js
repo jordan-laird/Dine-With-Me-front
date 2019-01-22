@@ -10,7 +10,7 @@ import * as moment from 'moment';
 
 moment.locale('ru')
 
-export class DateTimeFormInline extends React.Component {
+export class InviteForm extends React.Component {
   state = {
     dateTime: ""
   }
@@ -20,23 +20,29 @@ export class DateTimeFormInline extends React.Component {
     }
   }
 
+  selectUser = () => {
+    let selectedUser = this.props.filteredUsers[Math.floor(Math.random() * this.props.filteredUsers.length)]
+    return selectedUser.first_name
+  }
+
   render() {
     return (
       <Form>
+        <Form.Input fluid label="Restaurant" name="restaurantName" value={this.props.restaurant.name} readOnly />
+        <Form.Input fluid label="Nearby Diner" name="selectedUser" value={this.selectUser()} readOnly />
         <DateTimeInput
           name="dateTime"
           placeholder="Date Time"
           value={this.state.dateTime}
           iconPosition="left"
           minDate={moment()}
-          maxTime="10:00 pm"
           timeFormat="ampm"
           dateFormat="MM-DD-YYYY"
-          closable="true"
+          closable={true}
           onChange={this.handleChange}
         />
       </Form>
     );
   }
 }
-export default DateTimeFormInline;
+export default InviteForm;

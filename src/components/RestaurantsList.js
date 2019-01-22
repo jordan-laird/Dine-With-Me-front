@@ -10,6 +10,7 @@ export class RestaurantsList extends React.Component {
         {
           sortedList.map((restaurant) => (
             <RestaurantContainer
+              filteredUsers={this.props.filteredUsers}
               user={this.props.user}
               restaurant={restaurant}
               key={restaurant.id}

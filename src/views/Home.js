@@ -1,12 +1,13 @@
 import React from 'react';
-import { Container, Button } from 'semantic-ui-react';
+import { Container, Button, Image } from 'semantic-ui-react';
 import { RestaurantsList } from '../components/RestaurantsList.js';
+import { SidebarExampleVisible } from '../components/SideBar.js'
 import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 let controllers = ['Users', 'Invites', 'Messages', 'Meals'];
-let filteredUserList = [];
 const allRestaurants = [];
+let filteredUserList = []
 export class Home extends React.Component {
   state = {
     user: {
@@ -14,7 +15,8 @@ export class Home extends React.Component {
       long: 0
     },
     restaurantList: [],
-    messages: []
+    messages: [],
+    filteredUsers: []
   };
 
   calculateDistance = (lat1, lat2, long1, long2) => {
@@ -81,7 +83,7 @@ export class Home extends React.Component {
   fetchNearbyUsers = (userList) => {
     filteredUserList = userList.filter(
       (user) =>
-        user.id !== localStorage.userID &&
+        user.id != localStorage.userID &&
         this.calculateDistance(
           user.lat,
           this.state.user.lat,
@@ -89,7 +91,8 @@ export class Home extends React.Component {
           this.state.user.long
         ) < 5
     );
-    return filteredUserList;
+    console.log(filteredUserList)
+    this.setState({ filteredUsers: filteredUserList })
   };
 
   // api.trigger('Users', 'update', {id: 1, email: "test3", password:"123", first_name:"Jordan!", last_name:"Laird", Authorization: `BEARER ${localStorage.token}`}, console.log)
@@ -137,13 +140,16 @@ export class Home extends React.Component {
       return (
         <div style={{ marginTop: 100 }}>
           <Container>
+            <Image>{this.state.user.avatar}</Image>
             <h1>
               Welcome {this.state.user.first_name}!
             </h1>
+            {/* <SidebarExampleVisible /> */}
             <Button onClick={() => this.getLocation()}>
               Nearby Restaurants
             </Button>
             <RestaurantsList
+              filteredUsers={this.state.filteredUsers}
               user={this.state.user}
               restaurantList={this.state.restaurantList}
             />
