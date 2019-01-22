@@ -1,5 +1,5 @@
 import React from 'react'
-import { Segment, Button } from 'semantic-ui-react'
+import { Segment, Button, Card } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
 import * as moment from 'moment'
 const API_DOMAIN = 'ws://localhost:3000/cable';
@@ -35,10 +35,16 @@ export class Invite extends React.Component {
     )
   }
 
-  acceptDeny = () => {
-    if (this.props.invite.status == "pending") {
-
-    }
+  changeStatus = (e) => {
+    api.trigger(
+      "Invites",
+      "update",
+      {
+        id: this.props.invite.id,
+        Authorization: `BEARER ${localStorage.token}`,
+        status: e.target.value
+      }
+    )
   }
 
   componentDidMount() {
@@ -48,24 +54,37 @@ export class Invite extends React.Component {
   render() {
     console.log(this.state.mealInfo)
     return (
-      <Segment>
-        <h2>{this.state.mealInfo.restaurant_name}</h2>
-        <p>
-          Location: {this.state.mealInfo.restaurant_address}
-        </p>
-        <p>
-          Date/Time: {
-            moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')}
-        </p>
-        <p>
-          Dining With: {this.state.senderInfo.first_name}
-        </p>
+      <Card>
+        <Card.Content>
+          <Card.Header>
+            {this.state.mealInfo.restaurant_name}
+          </Card.Header>
+          <Card.Description>
+
+            <p>
+              Location: {this.state.mealInfo.restaurant_address}
+            </p>
+            <p>
+              Date/Time: {
+                moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')}
+            </p>
+            <p>
+              Dining With: {this.state.senderInfo.first_name}
+            </p>
+          </Card.Description>
+        </Card.Content>
+        {this.props.invite.status == "pending" ?
+          <Card.Content extra>
+            <Button onClick={this.changeStatus} value="accepted">Accept</Button>
+            <Button onClick={this.changeStatus} value="denied">Deny</Button>
+          </Card.Content> : <Card.Content extra>{this.props.invite.status}</Card.Content>
+        }
         {/* {(this.props.invite.status == "pending" ?
           <Button>Accept</Button>
           <Button>Deny</Button> : null)} */}
 
 
-      </Segment>
+      </Card>
     )
   }
 }

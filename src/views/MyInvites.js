@@ -1,5 +1,5 @@
 import React from 'react'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Card } from 'semantic-ui-react'
 import { Invite } from '../components/Invite.js'
 import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
@@ -39,11 +39,11 @@ export class MyInvites extends React.Component {
     console.log("MYSENTINVITES", this.state.sentInvites)
     console.log("MYRECEIVED", this.state.receivedInvites)
     return (
-      <div style={{ marginTop: 100 }}>
+      <Card.Group style={{ marginTop: 100 }}>
         {this.state.receivedInvites.map(invite =>
           <Invite invite={invite}></Invite>)}
 
-      </div>
+      </Card.Group>
     )
   }
 

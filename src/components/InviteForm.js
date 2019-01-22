@@ -21,6 +21,11 @@ export class InviteForm extends React.Component {
       first_name: "Bob"
     }
   }
+
+  goTo = (url) => {
+    this.props.history.push(url);
+  };
+
   handleChange = (e, { name, value }) => {
     e.persist();
     let inviteTime = value
@@ -62,6 +67,7 @@ export class InviteForm extends React.Component {
         receiver_id: this.state.randomUser.id
       }
     )
+    this.goTo('/myinvites')
   }
 
   render() {
