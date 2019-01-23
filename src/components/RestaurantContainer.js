@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Form, Button, Card, Modal } from 'semantic-ui-react';
-import { DateTimeFormInline } from './CalendarForm'
+import { InviteForm } from './InviteForm'
 
 export class RestaurantContainer extends React.Component {
   state = {
@@ -30,7 +30,9 @@ export class RestaurantContainer extends React.Component {
               <Modal.Header>
                 Schedule Meal at {this.props.restaurant.name}
               </Modal.Header>
-              <Modal.Content>{this.props.history}<DateTimeFormInline /></Modal.Content>
+              <Modal.Content>
+                <InviteForm restaurant={this.props.restaurant} filteredUsers={this.props.filteredUsers} />
+              </Modal.Content>
               {/* <Modal.Content image>
                 <Image wrapped size="medium" src={currentCompanyLogo} />
                 <Modal.Description>
@@ -38,10 +40,9 @@ export class RestaurantContainer extends React.Component {
                   <PurchaseShareForm {...this.props} history={this.props.history} />
                 </Modal.Description>
               </Modal.Content> */}
-              <Modal.Actions>
+              {/* <Modal.Actions>
                 <Button onClick={() => this.goTo("/messages")}>Submit Invite</Button>
-                <Button onClick={() => this.close}>Cancel Request</Button>
-              </Modal.Actions>
+              </Modal.Actions> */}
             </Modal>
           </div>
         </Card.Content>

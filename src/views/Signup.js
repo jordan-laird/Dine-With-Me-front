@@ -11,15 +11,13 @@ export class Signup extends React.Component {
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                user: {
-                    email: e.target.emailInput.value,
-                    password: e.target.passwordInput.value,
-                    first_name: e.target.firstNameInput.value,
-                    last_name: e.target.lastNameInput.value,
-                    lat: 29.760427,
-                    long: -95.369804
-
-                }
+                email: e.target.emailInput.value,
+                password: e.target.passwordInput.value,
+                first_name: e.target.firstNameInput.value,
+                last_name: e.target.lastNameInput.value,
+                lat: 29.760427,
+                long: -95.369804,
+                // avatar: e.target.avatarInput
 
             })
         })
@@ -28,7 +26,7 @@ export class Signup extends React.Component {
             )
             .then(
                 this.goTo("/")
-                
+
             );
 
     };
@@ -36,9 +34,9 @@ export class Signup extends React.Component {
     goTo = url => {
         this.props.history.push(url);
     };
-   
-    render(){
-        return(
+
+    render() {
+        return (
             <Container>
                 <h1>Create Account</h1>
                 <Form onSubmit={e => this.createAccount(e)}>
@@ -63,7 +61,14 @@ export class Signup extends React.Component {
                         name="passwordInput"
                         placeholder="Password"
                     />
-                    <Button type="submit"color="teal">Create Account</Button>
+                    <Form.Input
+                        label="Profile Image"
+                        type="file"
+                        name="avatarInput"
+                        accept="image"
+                    >
+                    </Form.Input>
+                    <Button type="submit" color="teal">Create Account</Button>
                 </Form>
             </Container>
         )
