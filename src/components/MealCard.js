@@ -1,6 +1,6 @@
 import React from 'react'
 import * as moment from 'moment';
-import { Segment, Card } from 'semantic-ui-react'
+import { Segment, Card, Button } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
@@ -10,6 +10,18 @@ export class MealCard extends React.Component {
   state = {
     diningWithUser: {},
     mealInfo: {}
+  }
+
+  changeStatus = (e) => {
+    api.trigger(
+      "Invites",
+      "update",
+      {
+        id: this.props.invite.id,
+        Authorization: `BEARER ${localStorage.token}`,
+        status: e.target.value
+      }
+    )
   }
 
   fetchDiningWithUserInfo = () => {
@@ -59,20 +71,23 @@ export class MealCard extends React.Component {
             {this.state.mealInfo.restaurant_name}
           </Card.Header>
           <Card.Description>
-            <h3>
+            <p>
               Dining With: {this.state.diningWithUser.first_name}
-            </h3>
-            <h3>
+            </p>
+            <p>
               Date/Time: {
                 moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')}
-            </h3>
-            <h3>
+            </p>
+            <p>
               Location: {this.state.mealInfo.restaurant_address}
-            </h3>
-            <h3>
+            </p>
+            <p>
               Phone: {this.state.mealInfo.restaurant_phone}
-            </h3>
+            </p>
           </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <Button onClick={this.changeStatus} value="cancelled">Cancel Meal</Button>
         </Card.Content>
 
       </Card>
