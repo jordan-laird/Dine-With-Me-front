@@ -6,9 +6,9 @@ const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api
 
-export class Invite extends React.Component {
+export class SentInvite extends React.Component {
   state = {
-    senderInfo: {},
+    receiverInfo: {},
     mealInfo: {}
   }
 
@@ -17,10 +17,10 @@ export class Invite extends React.Component {
       "Users",
       "show",
       {
-        id: this.props.invite.sender_id,
+        id: this.props.invite.receiver_id,
         Authorization: `BEARER ${localStorage.token}`
       },
-      (userInfo) => this.setState({ senderInfo: userInfo })
+      (userInfo) => this.setState({ receiverInfo: userInfo })
     )
   }
   fetchMealInfo = () => {
@@ -68,11 +68,11 @@ export class Invite extends React.Component {
                 moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')}
             </p>
             <p>
-              Dining With: {this.state.senderInfo.first_name}
+              Dining With: {this.state.receiverInfo.first_name}
             </p>
           </Card.Description>
         </Card.Content>
-        {(this.props.invite.status == "pending" && this.props.invite.receiver_id == localStorage.userID) ?
+        {(this.props.invite.status == "pending" && this.props.invite.receiver_id == this.state.receiverInfo.id) ?
           <Card.Content extra>
             <Button onClick={this.changeStatus} value="accepted">Accept</Button>
             <Button onClick={this.changeStatus} value="denied">Deny</Button>
@@ -83,4 +83,4 @@ export class Invite extends React.Component {
   }
 }
 
-export default Invite
+export default SentInvite
