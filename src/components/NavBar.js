@@ -19,7 +19,7 @@ class _NavBar extends React.Component {
       'Messages',
       'index',
       {
-        id: localStorage.userID,
+        // id: localStorage.userID,
         Authorization: `BEARER ${localStorage.token}`
       },
       (messages) => this.setState({ messages })
@@ -28,7 +28,7 @@ class _NavBar extends React.Component {
       'Invites',
       'index',
       {
-        id: localStorage.userID,
+        // id: localStorage.userID,
         Authorization: `BEARER ${localStorage.token}`
       },
       (invites) => this.setState({ invites })
@@ -44,8 +44,16 @@ class _NavBar extends React.Component {
       return pendingInvites.length
   }
   filterAcceptedInvites = () => {
-    if (this.state.invites ? acceptedInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID || invite.sender_id == localStorage.userID && invite.status == "accepted" && moment().isBefore(moment(invite.meal.starts_at))) : null)
-      return acceptedInvites.length
+    if (this.state.invites) {
+      acceptedInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID || invite.sender_id == localStorage.userID)
+
+      let filteredInvites = acceptedInvites.filter(invite => invite.status == "accepted" && moment().isBefore(moment(invite.meal.starts_at)))
+      console.log("acceptedInvites", filteredInvites)
+      return filteredInvites.length
+
+    } else {
+      return null
+    }
   }
 
   render() {

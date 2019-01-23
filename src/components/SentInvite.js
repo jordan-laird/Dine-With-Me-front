@@ -73,11 +73,8 @@ export class SentInvite extends React.Component {
           </Card.Description>
         </Card.Content>
         {(this.props.invite.status == "pending" && this.props.invite.receiver_id == this.state.receiverInfo.id) ?
-          <Card.Content extra>
-            <Button onClick={this.changeStatus} value="accepted">Accept</Button>
-            <Button onClick={this.changeStatus} value="denied">Deny</Button>
-          </Card.Content> : <Card.Content extra>{this.props.invite.status.charAt(0).toUpperCase() + this.props.invite.status.slice(1)}</Card.Content>
-        }
+          <Card.Content extra>{this.props.invite.status.charAt(0).toUpperCase() + this.props.invite.status.slice(1)}</Card.Content>
+          : null}
       </Card>
     )
   }

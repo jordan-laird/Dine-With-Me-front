@@ -2,8 +2,8 @@ import React from 'react'
 import { Segment, Card } from 'semantic-ui-react'
 import { ReceivedInvite } from '../components/ReceivedInvite.js'
 import { SentInvite } from '../components/SentInvite.js'
-import WarpCable from 'warp-cable-client';
 import * as moment from 'moment';
+import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
@@ -15,11 +15,11 @@ export class MyInvites extends React.Component {
   }
 
   fetchMySentInvites = (invites) => {
-    let mySentInvites = invites.filter(invite => invite.sender_id == localStorage.userID && moment().isBefore(moment(invite.meal.starts_at)))
+    let mySentInvites = invites.filter(invite => invite.sender_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at)))
     this.setState({ sentInvites: mySentInvites })
   }
   fetchMyReceivedInvites = (invites) => {
-    let myReceivedInvites = invites.filter(invite => invite.receiver_id == localStorage.userID && moment().isBefore(moment(invite.meal.starts_at)))
+    let myReceivedInvites = invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at)))
     this.setState({ receivedInvites: myReceivedInvites })
   }
 
