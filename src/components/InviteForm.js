@@ -17,7 +17,7 @@ moment.locale('ru')
 
 export class _InviteForm extends React.Component {
   state = {
-    dateTime: moment().format('MM-DD-YYYY h:mm a'),
+    dateTime: moment().add(1, 'day').format('MM-DD-YYYY h:mm a'),
     //'%m-%d-%Y %I:%M %p'
     randomUser: {
       first_name: "Bob"
@@ -88,7 +88,7 @@ export class _InviteForm extends React.Component {
               placeholder="Date/Time"
               value={this.state.dateTime}
               iconPosition="left"
-              minDate={moment()}
+              minDate={moment().add(1, "day")}
               timeFormat="ampm"
               dateFormat="MM-DD-YYYY"
               closable={true}
