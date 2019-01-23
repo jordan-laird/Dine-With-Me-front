@@ -64,8 +64,8 @@ export class _InviteForm extends React.Component {
       {
         Authorization: `BEARER ${localStorage.token}`,
         restaurant_name: e.target.restaurantName.value,
-        restaurant_address: "EXAMPLE 123",
-        restaurant_phone: "867-5309",
+        restaurant_address: this.props.restaurant.formatted_address,
+        restaurant_phone: this.props.restaurant.formatted_phone_number,
         starts_at: this.state.dateTime,
         sender_id: localStorage.userID,
         receiver_id: this.state.randomUser.id

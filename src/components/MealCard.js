@@ -59,17 +59,19 @@ export class MealCard extends React.Component {
             {this.state.mealInfo.restaurant_name}
           </Card.Header>
           <Card.Description>
-
-            <p>
-              Location: {this.state.mealInfo.restaurant_address}
-            </p>
-            <p>
+            <h3>
+              Dining With: {this.state.diningWithUser.first_name}
+            </h3>
+            <h3>
               Date/Time: {
                 moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')}
-            </p>
-            <p>
-              Dining With: {this.state.diningWithUser.first_name}
-            </p>
+            </h3>
+            <h3>
+              Location: {this.state.mealInfo.restaurant_address}
+            </h3>
+            <h3>
+              Phone: {this.state.mealInfo.restaurant_phone}
+            </h3>
           </Card.Description>
         </Card.Content>
 

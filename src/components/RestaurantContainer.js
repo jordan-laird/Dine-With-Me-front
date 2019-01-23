@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Form, Button, Card, Modal } from 'semantic-ui-react';
 import { InviteForm } from './InviteForm'
 
+
 export class RestaurantContainer extends React.Component {
   state = {
     open: false,
@@ -25,7 +26,14 @@ export class RestaurantContainer extends React.Component {
         </Card.Content>
         <Card.Content extra>
           <div className="ui two buttons">
-            <Button onClick={() => this.setState({ expanded: !this.state.expanded })}>Restaurant Information</Button>
+            <Modal trigger={<Button>Restaurant Information</Button>} closeIcon>
+              <Modal.Header>{this.props.restaurant.name} Contact Information</Modal.Header>
+              <Modal.Content>
+                <h3>Restaurant Location: {this.props.restaurant.formatted_address}</h3>
+                <h3>Restaurant Phone: {this.props.restaurant.formatted_phone_number}</h3>
+                <a href={this.props.restaurant.website} target="_blank">Visit {this.props.restaurant.name}'s Website</a>
+              </Modal.Content>
+            </Modal>
             <Modal trigger={<Button>Request Date</Button>} closeIcon>
               <Modal.Header>
                 Schedule Meal at {this.props.restaurant.name}
