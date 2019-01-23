@@ -72,7 +72,7 @@ export class SentInvite extends React.Component {
             </p>
           </Card.Description>
         </Card.Content>
-        {(this.props.invite.status == "pending" && this.props.invite.receiver_id == this.state.receiverInfo.id) ?
+        {(this.props.invite.status == "pending" && this.props.invite.sender_id == localStorage.userID) ?
           <Card.Content extra>{this.props.invite.status.charAt(0).toUpperCase() + this.props.invite.status.slice(1)}</Card.Content>
           : null}
       </Card>

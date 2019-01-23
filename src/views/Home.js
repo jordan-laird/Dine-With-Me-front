@@ -39,15 +39,17 @@ export class Home extends React.Component {
   };
 
   fetchUserInfo = () => {
-    api.subscribe(
-      'Users',
-      'show',
-      {
-        id: localStorage.userID,
-        Authorization: `BEARER ${localStorage.token}`
-      },
-      (userInfo) => this.setState({ user: { ...userInfo } })
-    );
+    return new Promise(resolve => {
+      api.subscribe(
+        'Users',
+        'show',
+        {
+          id: localStorage.userID,
+          Authorization: `BEARER ${localStorage.token}`
+        },
+        (userInfo) => this.setState({ user: { ...userInfo } }, resolve)
+      );
+    })
   };
   getLocation = () => {
     navigator.geolocation
@@ -80,42 +82,46 @@ export class Home extends React.Component {
     );
   };
 
-  fetchNearbyUsers = (userList) => {
-    filteredUserList = userList.filter(
-      (user) =>
-        user.id != localStorage.userID &&
-        this.calculateDistance(
-          user.lat,
-          this.state.user.lat,
-          user.long,
-          this.state.user.long
-        ) < 5
-    );
-    console.log(filteredUserList)
-    this.setState({ filteredUsers: filteredUserList })
+  fetchNearbyUsers = () => {
+    api.subscribe('Users', 'index', { Authorization: `BEARER ${localStorage.token}` }, userList => {
+      filteredUserList = userList.filter(
+        (user) =>
+          user.id != localStorage.userID &&
+          this.calculateDistance(
+            user.lat,
+            this.state.user.lat,
+            user.long,
+            this.state.user.long
+          ) < 5
+      );
+      console.log(filteredUserList)
+      this.setState({ filteredUsers: filteredUserList })
+    })
   };
 
   // api.trigger('Users', 'update', {id: 1, email: "test3", password:"123", first_name:"Jordan!", last_name:"Laird", Authorization: `BEARER ${localStorage.token}`}, console.log)
   async componentDidMount() {
     await this.fetchUserInfo();
 
-    controllers.forEach((controller) =>
-      api.subscribe(
-        controller,
-        'index',
-        {
-          Authorization: `BEARER ${localStorage.token}`,
-          userID: localStorage.userID
-        },
-        (users) => {
-          // console.log(`Mounting `, users);
-          this.fetchNearbyRestaurants();
-          if (controller === 'Users') {
-            this.fetchNearbyUsers(users);
-          }
-        }
-      )
-    );
+    // controllers.forEach((controller) =>
+    //   api.subscribe(
+    //     controller,
+    //     'index',
+    //     {
+    //       Authorization: `BEARER ${localStorage.token}`,
+    //       userID: localStorage.userID
+    //     },
+    //     (users) => {
+    //       // console.log(`Mounting `, users);
+    //       this.fetchNearbyRestaurants();
+    //       if (controller === 'Users') {
+    //         this.fetchNearbyUsers(users);
+    //       }
+    //     }
+    //   )
+    // );
+    this.fetchNearbyUsers();
+    this.fetchNearbyRestaurants();
   }
   render() {
     if (this.state.user) {

@@ -40,7 +40,7 @@ class _NavBar extends React.Component {
       return unreadMessages.length
   }
   filterPendingInvites = () => {
-    if (this.state.invites ? pendingInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at))) : null)
+    if (Array.isArray(this.state.invites) ? pendingInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at))) : null)
       return pendingInvites.length
   }
   filterAcceptedInvites = () => {

@@ -30,9 +30,7 @@ export class RestaurantContainer extends React.Component {
               <Modal.Header>
                 Schedule Meal at {this.props.restaurant.name}
               </Modal.Header>
-              <Modal.Content>
-                <InviteForm restaurant={this.props.restaurant} filteredUsers={this.props.filteredUsers} />
-              </Modal.Content>
+              <InviteForm restaurant={this.props.restaurant} filteredUsers={this.props.filteredUsers} />
               {/* <Modal.Content image>
                 <Image wrapped size="medium" src={currentCompanyLogo} />
                 <Modal.Description>

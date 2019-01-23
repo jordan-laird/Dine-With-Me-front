@@ -14,13 +14,10 @@ export class MyInvites extends React.Component {
     receivedInvites: []
   }
 
-  fetchMySentInvites = (invites) => {
+  sortInvites = (invites) => {
     let mySentInvites = invites.filter(invite => invite.sender_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at)))
-    this.setState({ sentInvites: mySentInvites })
-  }
-  fetchMyReceivedInvites = (invites) => {
     let myReceivedInvites = invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at)))
-    this.setState({ receivedInvites: myReceivedInvites })
+    this.setState({ sentInvites: mySentInvites, receivedInvites: myReceivedInvites })
   }
 
   componentDidMount() {
@@ -32,8 +29,7 @@ export class MyInvites extends React.Component {
         userID: localStorage.userID
       },
       (invites) => {
-        this.fetchMySentInvites(invites)
-        this.fetchMyReceivedInvites(invites)
+        this.sortInvites(invites)
       }
     )
   }
@@ -42,7 +38,7 @@ export class MyInvites extends React.Component {
       <div>
         <Segment style={{ marginTop: 100, marginBottom: 30 }}>
           <h2>Received Invites</h2>
-          <Card.Group style={{ marginTop: 100 }}>
+          <Card.Group style={{ marginTop: 50 }}>
             {this.state.receivedInvites.map(invite =>
               <ReceivedInvite invite={invite}></ReceivedInvite>)}
 
@@ -50,7 +46,7 @@ export class MyInvites extends React.Component {
         </Segment>
         <Segment>
           <h2>Sent Invites</h2>
-          <Card.Group style={{ marginTop: 100 }}>
+          <Card.Group style={{ marginTop: 50 }}>
             {this.state.sentInvites.map(invite =>
               <SentInvite invite={invite}></SentInvite>)}
 
