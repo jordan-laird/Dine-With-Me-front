@@ -57,6 +57,7 @@ export class Home extends React.Component {
       : alert('Geolocation is not supported');
   };
   setLocation = (position) => {
+    this.setState({ restaurantList: [] })
     api.trigger('Users', 'update', {
       id: localStorage.userID,
       lat: position.coords.latitude,
@@ -68,10 +69,10 @@ export class Home extends React.Component {
   fetchNearbyRestaurants = () => {
     return api.subscribe(
       'Restaurants',
-      'create',
+      'index',
       {
-        lat: this.state.user.lat,
-        long: this.state.user.long,
+        // lat: this.state.user.lat,
+        // long: this.state.user.long,
         Authorization: `BEARER ${localStorage.token}`
       },
       (restaurants) => {
@@ -94,8 +95,8 @@ export class Home extends React.Component {
             this.state.user.long
           ) < 5
       )
-      console.log(filteredUserList)
       this.setState({ filteredUsers: filteredUserList })
+      console.log("FILTERED USER LIST", this.state.filteredUsers)
     })
   };
 

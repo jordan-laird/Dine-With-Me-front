@@ -6,7 +6,7 @@ import {
   DateTimeInput,
   DatesRangeInput
 } from 'semantic-ui-calendar-react';
-import { Form, Button, Modal } from 'semantic-ui-react'
+import { Form, Button, Modal, Icon } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import * as moment from 'moment';
 const API_DOMAIN = 'ws://localhost:3000/cable';
@@ -21,8 +21,12 @@ export class _InviteForm extends React.Component {
     //'%m-%d-%Y %I:%M %p'
     randomUser: {
       first_name: "Bob"
-    }
+    },
+    open: false
   }
+
+  open = () => this.setState({ open: true })
+  close = () => this.setState({ open: false })
 
   goTo = (url) => {
     this.props.history.push(url);
@@ -35,7 +39,9 @@ export class _InviteForm extends React.Component {
   }
 
   selectUser = () => {
+    console.log(this.props.filteredUsers)
     let selectedUser = this.props.filteredUsers[Math.floor(Math.random() * this.props.filteredUsers.length)]
+    console.log(selectedUser)
     this.setState({ randomUser: selectedUser })
   }
 
@@ -77,32 +83,70 @@ export class _InviteForm extends React.Component {
   }
 
   render() {
+    const { open } = this.state.open
     if (this.state.randomUser && this.state.dateTime) {
       return (
-        <Form size='large' style={{ maxWidth: 300, marginLeft: 15 }} onSubmit={(e) => { this.createMealInvite(e) }}>
-          <Modal.Content style={{ marginTop: 20 }} >
-            <Form.Input fluid label="Restaurant" name="restaurantName" value={this.props.restaurant.name} readOnly />
-            <Form.Input fluid label="Nearby Diner" name="selectedUser" value={this.state.randomUser.first_name} readOnly />
-            <DateTimeInput
-              name="dateTime"
-              placeholder="Date/Time"
-              value={this.state.dateTime}
-              iconPosition="left"
-              minDate={moment().add(1, "day")}
-              timeFormat="ampm"
-              dateFormat="MM-DD-YYYY"
-              closable={true}
-              onChange={this.handleChange}
-            />
-            <Button color="green" style={{ marginTop: 15, marginBottom: 15 }} type="submit">Send Invite</Button>
-          </Modal.Content>
-          <Modal.Actions>
-          </Modal.Actions>
-        </Form>
+        <div>
+          <Form size='large' style={{ maxWidth: 300, marginLeft: 15 }} onSubmit={(e) => { this.createMealInvite(e) }}>
+            <Modal.Content style={{ marginTop: 20 }} >
+              <Form.Input fluid label="Restaurant" name="restaurantName" value={this.props.restaurant.name} readOnly />
+              <Form.Input fluid label="Nearby Diner" name="selectedUser" value={this.state.randomUser.first_name} readOnly />
+              <DateTimeInput
+                name="dateTime"
+                placeholder="Date/Time"
+                value={this.state.dateTime}
+                iconPosition="left"
+                minDate={moment().add(1, "day")}
+                timeFormat="ampm"
+                dateFormat="MM-DD-YYYY"
+                closable={true}
+                onChange={this.handleChange}
+              />
+              <Button color="green" style={{ marginTop: 15, marginBottom: 15 }} type="submit">Send Invite</Button>
+            </Modal.Content>
+            <Button type="button" color="blue" onClick={() => this.selectUser()}>Shuffle Diner</Button>
+            <Modal.Actions>
+              <NestedModal randomUser={this.state.randomUser} />
+            </Modal.Actions>
+          </Form >
+        </div>
       );
     }
     else { return null }
 
+  }
+}
+
+class NestedModal extends React.Component {
+  state = { open: false }
+
+  open = () => this.setState({ open: true })
+  close = () => this.setState({ open: false })
+
+  render() {
+    const { open } = this.state
+
+    return (
+      <Modal
+        open={open}
+        onOpen={this.open}
+        onClose={this.close}
+        size='small'
+        trigger={
+          <Button type="button" primary icon>
+            User Details
+        </Button>
+        }
+      >
+        <Modal.Header> {this.props.randomUser.first_name}</Modal.Header>
+        <Modal.Content>
+          <p>That's everything!</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button type="button" icon='check' content='All Done' onClick={this.close} />
+        </Modal.Actions>
+      </Modal>
+    )
   }
 }
 // export default InviteForm
