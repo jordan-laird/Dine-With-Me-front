@@ -38,7 +38,8 @@ export class MyInvites extends React.Component {
       <div>
         <Segment style={{ marginTop: 100, marginBottom: 30 }}>
           <h2>Received Invites</h2>
-          <Card.Group style={{ marginTop: 50 }}>
+
+          <Card.Group style={{ marginTop: 50 }} itemsPerRow={5}>
             {this.state.receivedInvites.map(invite =>
               <ReceivedInvite invite={invite}></ReceivedInvite>)}
 
@@ -46,7 +47,7 @@ export class MyInvites extends React.Component {
         </Segment>
         <Segment>
           <h2>Sent Invites</h2>
-          <Card.Group style={{ marginTop: 50 }}>
+          <Card.Group style={{ marginTop: 50 }} itemsPerRow={4}>
             {this.state.sentInvites.map(invite =>
               <SentInvite invite={invite}></SentInvite>)}
 

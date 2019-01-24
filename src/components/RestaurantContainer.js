@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Form, Button, Card, Modal } from 'semantic-ui-react';
+import { Container, Form, Button, Card, Modal, Icon } from 'semantic-ui-react';
 import { InviteForm } from './InviteForm'
 
 
@@ -14,27 +14,29 @@ export class RestaurantContainer extends React.Component {
   };
   render() {
     return (
-      <Card>
+      <Card color="blue">
         <Card.Content>
           <Card.Header>
             <h3>{this.props.restaurant.name}</h3>
           </Card.Header>
 
           <Card.Description>
-            Distance: {Number(this.props.restaurant.distance).toFixed(2)} miles
+            <Icon name="map" size="large" />{Number(this.props.restaurant.distance).toFixed(2)} miles
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
           <div className="ui two buttons">
-            <Modal trigger={<Button>Restaurant Information</Button>} closeIcon>
-              <Modal.Header>{this.props.restaurant.name} Contact Information</Modal.Header>
+            <Modal trigger={<Button >Restaurant Information</Button>} closeIcon>
+              <Modal.Header style={{ textAlign: "center" }}>{this.props.restaurant.name} Contact Information</Modal.Header>
               <Modal.Content>
-                <h3>Restaurant Location: {this.props.restaurant.formatted_address}</h3>
-                <h3>Restaurant Phone: {this.props.restaurant.formatted_phone_number}</h3>
-                <a href={this.props.restaurant.website} target="_blank">Visit {this.props.restaurant.name}'s Website</a>
+                <Icon name="home" size="large" style={{ marginBottom: 10 }} /> {this.props.restaurant.formatted_address}<br />
+                <Icon name="phone" size="large" style={{ marginBottom: 10 }} />
+                {this.props.restaurant.formatted_phone_number}<br />
+                <Icon name="at" size="large" />
+                <a href={this.props.restaurant.website} target="_blank">{this.props.restaurant.name}'s Website</a>
               </Modal.Content>
             </Modal>
-            <Modal trigger={<Button>Request Date</Button>} closeIcon>
+            <Modal trigger={<Button >Request Date</Button>} closeIcon>
               <Modal.Header>
                 Schedule Meal at {this.props.restaurant.name}
               </Modal.Header>

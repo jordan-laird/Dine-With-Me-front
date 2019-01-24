@@ -93,7 +93,7 @@ export class Home extends React.Component {
             user.long,
             this.state.user.long
           ) < 5
-      );
+      )
       console.log(filteredUserList)
       this.setState({ filteredUsers: filteredUserList })
     })
@@ -127,15 +127,15 @@ export class Home extends React.Component {
     if (this.state.user) {
       // console.log('RENDERED', filteredUserList);
       return (
-        <div style={{ marginTop: 100 }}>
+        <div style={{ marginLeft: 20, marginRight: 20, marginTop: 100 }}>
           <Container>
             <Image>{this.state.user.avatar}</Image>
             <h1>
               Welcome {this.state.user.first_name}!
             </h1>
             {/* <SidebarExampleVisible /> */}
-            <Button onClick={() => this.getLocation()}>
-              Nearby Restaurants
+            <Button color="blue" fluid size='large' onClick={() => this.getLocation()}>
+              Find Restaurants Near Me
             </Button>
             <RestaurantsList
               filteredUsers={this.state.filteredUsers}

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Container, Form, Button } from 'semantic-ui-react'
+import { Container, Form, Button, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 export class Signup extends React.Component {
     createAccount = e => {
@@ -37,40 +38,56 @@ export class Signup extends React.Component {
 
     render() {
         return (
-            <Container>
-                <h1>Create Account</h1>
-                <Form onSubmit={e => this.createAccount(e)}>
-                    <Form.Input
-                        label="Email"
-                        name="emailInput"
-                        placeholder="Email"
-                    />
-                    <Form.Input
-                        label="First Name"
-                        name="firstNameInput"
-                        placeholder="First Name"
-                    />
-                    <Form.Input
-                        label="Last Name"
-                        name="lastNameInput"
-                        placeholder="Last Name"
-                    />
-                    <Form.Input
-                        label="Password"
-                        type="password"
-                        name="passwordInput"
-                        placeholder="Password"
-                    />
-                    <Form.Input
-                        label="Profile Image"
-                        type="file"
-                        name="avatarInput"
-                        accept="image"
-                    >
-                    </Form.Input>
-                    <Button type="submit" color="teal">Create Account</Button>
-                </Form>
-            </Container>
+            <Grid textAlign='center' style={{ height: '100%', marginTop: 200 }}>
+                <Grid.Column style={{ maxWidth: 450 }}>
+                    <Header as='h2' color="blue" textAlign='center'>
+                        Create Account
+                    </Header>
+                    <Form size='large' onSubmit={e => this.createAccount(e)}>
+                        <Segment stacked>
+
+                            <Form.Input
+                                fluid icon="mail"
+                                iconPosition="left"
+                                label="Email"
+                                name="emailInput"
+                                placeholder="Email"
+                            />
+                            <Form.Input
+                                fluid icon="user" iconPosition="left"
+                                label="First Name"
+                                name="firstNameInput"
+                                placeholder="First Name"
+                            />
+                            <Form.Input
+                                fluid icon="user" iconPosition="left"
+                                label="Last Name"
+                                name="lastNameInput"
+                                placeholder="Last Name"
+                            />
+                            <Form.Input
+                                fluid icon='lock' iconPosition="left"
+                                label="Password"
+                                type="password"
+                                name="passwordInput"
+                                placeholder="Password"
+                            />
+                            {/* <Form.Input
+                                fluid
+                                label="Profile Image"
+                                type="file"
+                                name="avatarInput"
+                                accept="image"
+                            > */}
+                            {/* </Form.Input> */}
+                            <Button type="submit" color="blue" fluid size="large">Create Account</Button>
+                        </Segment>
+                    </Form>
+                    <Message>
+                        Already Have an Account? <Link to={'/'}>Login</Link>
+                    </Message>
+                </Grid.Column >
+            </Grid >
         )
     }
 }

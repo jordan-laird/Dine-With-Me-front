@@ -1,6 +1,6 @@
 import React from 'react'
 import * as moment from 'moment';
-import { Segment, Card, Button } from 'semantic-ui-react'
+import { Segment, Card, Button, Icon } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
 const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
@@ -67,27 +67,19 @@ export class MealCard extends React.Component {
     return (
       <Card>
         <Card.Content>
-          <Card.Header>
+          <Card.Header style={{ marginBottom: 10 }}>
             {this.state.mealInfo.restaurant_name}
           </Card.Header>
           <Card.Description>
-            <p>
-              Dining With: {this.state.diningWithUser.first_name}
-            </p>
-            <p>
-              Date/Time: {
-                moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')}
-            </p>
-            <p>
-              Location: {this.state.mealInfo.restaurant_address}
-            </p>
-            <p>
-              Phone: {this.state.mealInfo.restaurant_phone}
-            </p>
+            <Icon name="user" size="large" style={{ marginBottom: 10 }} /> {this.state.diningWithUser.first_name} <br />
+            <Icon name="calendar" size="large" style={{ marginBottom: 10 }} />
+            {moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')} <br />
+            <Icon name="home" size="large" style={{ marginBottom: 10 }} />{this.state.mealInfo.restaurant_address} <br />
+            <Icon name="phone" size="large" style={{ marginBottom: 10 }} />{this.state.mealInfo.restaurant_phone}
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <Button onClick={this.changeStatus} value="cancelled">Cancel Meal</Button>
+          <Button fluid color="red" onClick={this.changeStatus} value="cancelled">Cancel Meal</Button>
         </Card.Content>
 
       </Card>

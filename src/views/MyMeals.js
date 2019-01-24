@@ -35,7 +35,7 @@ export class MyMeals extends React.Component {
   render() {
     return (
       <div>
-        <Card.Group style={{ marginTop: 100 }}>
+        <Card.Group style={{ marginTop: 100 }} itemsPerRow={4}>
           {this.state.myMeals.map(invite =>
             <MealCard invite={invite} />
           )}

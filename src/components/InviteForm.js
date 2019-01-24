@@ -79,8 +79,8 @@ export class _InviteForm extends React.Component {
   render() {
     if (this.state.randomUser && this.state.dateTime) {
       return (
-        <Form onSubmit={(e) => { this.createMealInvite(e) }}>
-          <Modal.Content>
+        <Form size='large' style={{ maxWidth: 300, marginLeft: 15 }} onSubmit={(e) => { this.createMealInvite(e) }}>
+          <Modal.Content style={{ marginTop: 20 }} >
             <Form.Input fluid label="Restaurant" name="restaurantName" value={this.props.restaurant.name} readOnly />
             <Form.Input fluid label="Nearby Diner" name="selectedUser" value={this.state.randomUser.first_name} readOnly />
             <DateTimeInput
@@ -94,7 +94,7 @@ export class _InviteForm extends React.Component {
               closable={true}
               onChange={this.handleChange}
             />
-            <Button type="submit">Send Invite</Button>
+            <Button color="green" style={{ marginTop: 15, marginBottom: 15 }} type="submit">Send Invite</Button>
           </Modal.Content>
           <Modal.Actions>
           </Modal.Actions>
