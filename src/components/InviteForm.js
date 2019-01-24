@@ -87,10 +87,10 @@ export class _InviteForm extends React.Component {
     if (this.state.randomUser && this.state.dateTime) {
       return (
         <div>
-          <Form size='large' style={{ maxWidth: 300, marginLeft: 15 }} onSubmit={(e) => { this.createMealInvite(e) }}>
+          <Form size='large' style={{ marginLeft: 40, marginRight: 40 }} onSubmit={(e) => { this.createMealInvite(e) }}>
             <Modal.Content style={{ marginTop: 20 }} >
-              <Form.Input fluid label="Restaurant" name="restaurantName" value={this.props.restaurant.name} readOnly />
-              <Form.Input fluid label="Nearby Diner" name="selectedUser" value={this.state.randomUser.first_name} readOnly />
+              <Form.Input label="Restaurant" name="restaurantName" value={this.props.restaurant.name} readOnly />
+              <Form.Input label="Nearby Diner" name="selectedUser" value={this.state.randomUser.first_name} readOnly />
               <DateTimeInput
                 name="dateTime"
                 placeholder="Date/Time"
@@ -102,9 +102,9 @@ export class _InviteForm extends React.Component {
                 closable={true}
                 onChange={this.handleChange}
               />
-              <Button color="green" style={{ marginTop: 15, marginBottom: 15 }} type="submit">Send Invite</Button>
+              <Button color="green" style={{ marginTop: 15, marginBottom: 15, float: "right" }} type="submit">Send Invite</Button>
+              <Button type="button" color="blue" onClick={() => this.selectUser()}>Shuffle Diner</Button>
             </Modal.Content>
-            <Button type="button" color="blue" onClick={() => this.selectUser()}>Shuffle Diner</Button>
             <Modal.Actions>
               <NestedModal randomUser={this.state.randomUser} />
             </Modal.Actions>
@@ -140,7 +140,7 @@ class NestedModal extends React.Component {
       >
         <Modal.Header> {this.props.randomUser.first_name}</Modal.Header>
         <Modal.Content>
-          <p>That's everything!</p>
+          <p>{this.props.randomUser.user_description}</p>
         </Modal.Content>
         <Modal.Actions>
           <Button type="button" icon='check' content='All Done' onClick={this.close} />

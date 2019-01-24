@@ -36,7 +36,7 @@ export class Login extends React.Component {
       <div>
         <Grid textAlign='center' style={{ height: '100%', marginTop: 200 }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>
-            <Header as='h2' color="blue" textAlign='center'>
+            <Header as='h2' textAlign='center'>
               Log-in to your account
             </Header>
             <Form size='large' onSubmit={e => this.login(e)}>

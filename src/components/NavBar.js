@@ -40,8 +40,12 @@ class _NavBar extends React.Component {
       return unreadMessages.length
   }
   filterPendingInvites = () => {
-    if (Array.isArray(this.state.invites) ? pendingInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at))) : null)
+    if (Array.isArray(this.state.invites)) {
+      pendingInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at)))
       return pendingInvites.length
+
+    }
+    else return 0
   }
   filterAcceptedInvites = () => {
     if (Array.isArray(this.state.invites)) {
@@ -52,14 +56,14 @@ class _NavBar extends React.Component {
       return filteredInvites.length
 
     } else {
-      return null
+      return 0
     }
   }
 
   render() {
     return (
       <div>
-        <Menu color="blue" fixed="top" inverted>
+        <Menu color="blue" fixed="top" inverted fluid stackable >
           <Container>
             <Menu.Item header>
               {/* <Image

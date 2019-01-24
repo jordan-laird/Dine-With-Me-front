@@ -1,5 +1,5 @@
 import React from 'react'
-import { Segment, Button, Card } from 'semantic-ui-react'
+import { Segment, Button, Card, Icon } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
 import * as moment from 'moment'
 const API_DOMAIN = 'ws://localhost:3000/cable';
@@ -61,14 +61,14 @@ export class SentInvite extends React.Component {
           <Card.Description>
 
             <p>
-              Location: {this.state.mealInfo.restaurant_address}
+              <Icon name="home" size="large" />{this.state.mealInfo.restaurant_address}
             </p>
             <p>
-              Date/Time: {
+              <Icon name="calendar" size="large" />{
                 moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')}
             </p>
             <p>
-              Dining With: {this.state.receiverInfo.first_name}
+              <Icon name="user" size="large" />{this.state.receiverInfo.first_name}
             </p>
           </Card.Description>
         </Card.Content>

@@ -33,15 +33,23 @@ export class MyMeals extends React.Component {
     )
   }
   render() {
-    return (
-      <div>
-        <Card.Group style={{ marginTop: 100 }} itemsPerRow={4}>
-          {this.state.myMeals.map(invite =>
-            <MealCard invite={invite} />
-          )}
-        </Card.Group>
-      </div>
-    )
+    if (this.state.myMeals.length > 0) {
+      return (
+        <div>
+          <Card.Group style={{ marginTop: 100 }} itemsPerRow={4}>
+            {this.state.myMeals.map(invite =>
+              <MealCard invite={invite} />
+            )}
+          </Card.Group>
+        </div>
+      )
+
+    } else {
+      return (
+        <Segment style={{ marginTop: 100, textAlign: "center" }}><h1>You currently have no scheduled meals.</h1></Segment>
+      )
+
+    }
   }
 }
 

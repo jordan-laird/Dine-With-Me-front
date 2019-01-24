@@ -16,6 +16,7 @@ export class Signup extends React.Component {
                 password: e.target.passwordInput.value,
                 first_name: e.target.firstNameInput.value,
                 last_name: e.target.lastNameInput.value,
+                user_description: e.target.userDescription.value,
                 lat: 29.760427,
                 long: -95.369804,
                 // avatar: e.target.avatarInput
@@ -72,14 +73,7 @@ export class Signup extends React.Component {
                                 name="passwordInput"
                                 placeholder="Password"
                             />
-                            {/* <Form.Input
-                                fluid
-                                label="Profile Image"
-                                type="file"
-                                name="avatarInput"
-                                accept="image"
-                            > */}
-                            {/* </Form.Input> */}
+                            <Form.TextArea label='About' name="userDescription" placeholder='Tell us more about you...' />
                             <Button type="submit" color="blue" fluid size="large">Create Account</Button>
                         </Segment>
                     </Form>

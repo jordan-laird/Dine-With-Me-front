@@ -85,18 +85,21 @@ export class Home extends React.Component {
 
   fetchNearbyUsers = () => {
     api.subscribe('Users', 'index', { Authorization: `BEARER ${localStorage.token}` }, userList => {
-      filteredUserList = userList.filter(
-        (user) =>
-          user.id != localStorage.userID &&
-          this.calculateDistance(
-            user.lat,
-            this.state.user.lat,
-            user.long,
-            this.state.user.long
-          ) < 5
-      )
-      this.setState({ filteredUsers: filteredUserList })
-      console.log("FILTERED USER LIST", this.state.filteredUsers)
+      if (userList) {
+        filteredUserList = userList.filter(
+          (user) =>
+            user.id != localStorage.userID &&
+            this.calculateDistance(
+              user.lat,
+              this.state.user.lat,
+              user.long,
+              this.state.user.long
+            ) < 5
+        )
+        this.setState({ filteredUsers: filteredUserList })
+
+      } else return null
+
     })
   };
 
