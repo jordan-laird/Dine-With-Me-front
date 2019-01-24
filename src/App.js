@@ -24,9 +24,9 @@ class App extends Component {
             <Route path="/inbox" component={Inbox} />
             <Route path="/myinvites" component={MyInvites} />
             <Route path="/mymeals" component={MyMeals} />
-            <Route exact path="/" component={LandingPage} />
+            {/* <Route exact path="/" component={LandingPage} /> */}
             <Route path="/register" component={Signup} />
-            <Route path="/login" component={Login} />
+            <Route exact path="/" component={Login} />
             }
           </Switch>
         </div>

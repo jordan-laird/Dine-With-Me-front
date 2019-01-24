@@ -103,7 +103,7 @@ export class _InviteForm extends React.Component {
                 onChange={this.handleChange}
               />
               <Button color="green" style={{ marginTop: 15, marginBottom: 15, float: "right" }} type="submit">Send Invite</Button>
-              <Button type="button" color="blue" onClick={() => this.selectUser()}>Shuffle Diner</Button>
+              <Button style={{ float: "right", marginTop: 15, marginBottom: 15 }} type="button" color="blue" onClick={() => this.selectUser()}>Shuffle Diner</Button>
             </Modal.Content>
             <Modal.Actions>
               <NestedModal randomUser={this.state.randomUser} />
@@ -133,9 +133,9 @@ class NestedModal extends React.Component {
         onClose={this.close}
         size='small'
         trigger={
-          <Button type="button" primary icon>
+          <Button style={{ float: "right", marginTop: 15, marginBottom: 15 }} type="button" primary icon>
             User Details
-        </Button>
+          </Button>
         }
       >
         <Modal.Header> {this.props.randomUser.first_name}</Modal.Header>
@@ -143,7 +143,7 @@ class NestedModal extends React.Component {
           <p>{this.props.randomUser.user_description}</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button type="button" icon='check' content='All Done' onClick={this.close} />
+          <Button color="blue" type="button" icon='check' content='All Done' onClick={this.close} />
         </Modal.Actions>
       </Modal>
     )

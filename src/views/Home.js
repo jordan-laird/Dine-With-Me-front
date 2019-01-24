@@ -134,7 +134,7 @@ export class Home extends React.Component {
         <div style={{ marginLeft: 20, marginRight: 20, marginTop: 100 }}>
           <Container>
             <Image>{this.state.user.avatar}</Image>
-            <h1>
+            <h1 style={{ color: "white" }}>
               Welcome {this.state.user.first_name}!
             </h1>
             {/* <SidebarExampleVisible /> */}
