@@ -3,7 +3,7 @@ import { Container, Button, Image } from 'semantic-ui-react';
 import { RestaurantsList } from '../components/RestaurantsList.js';
 import { SidebarExampleVisible } from '../components/SideBar.js'
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 let controllers = ['Users', 'Invites', 'Messages', 'Meals'];
 const allRestaurants = [];
@@ -134,7 +134,7 @@ export class Home extends React.Component {
         <div style={{ marginLeft: 20, marginRight: 20, marginTop: 100 }}>
           <Container>
             <Image>{this.state.user.avatar}</Image>
-            <h1 style={{ color: "white" }}>
+            <h1 style={{ color: "#0080D6", textAlign: "center" }}>
               Welcome {this.state.user.first_name}!
             </h1>
             {/* <SidebarExampleVisible /> */}

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export class Login extends React.Component {
   login = (e) => {
     e.preventDefault();
-    fetch('http://localhost:3000/auth/', {
+    fetch('http://10.185.0.217:3000/auth/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

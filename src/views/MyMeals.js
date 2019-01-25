@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { Segment, Card, Container } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
 import { MealCard } from '../components/MealCard.js'
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 export class MyMeals extends React.Component {
@@ -47,7 +47,7 @@ export class MyMeals extends React.Component {
 
     } else {
       return (
-        <Segment style={{ marginTop: 100, textAlign: "center" }}><h1>You currently have no scheduled meals.</h1></Segment>
+        <Container style={{ marginTop: 100, textAlign: "center" }}><h1>You currently have no scheduled meals.</h1></Container>
       )
 
     }

@@ -2,7 +2,7 @@ import React from 'react'
 import * as moment from 'moment';
 import { Segment, Card, Button, Icon } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 

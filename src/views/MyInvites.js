@@ -4,7 +4,7 @@ import { ReceivedInvite } from '../components/ReceivedInvite.js'
 import { SentInvite } from '../components/SentInvite.js'
 import * as moment from 'moment';
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 

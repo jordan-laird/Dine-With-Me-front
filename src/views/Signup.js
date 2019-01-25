@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export class Signup extends React.Component {
     createAccount = e => {
         e.preventDefault();
-        fetch("http://localhost:3000/users/", {
+        fetch("http://10.185.0.217:3000/users/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
