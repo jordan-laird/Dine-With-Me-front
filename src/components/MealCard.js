@@ -1,8 +1,8 @@
 import React from 'react'
 import * as moment from 'moment';
-import { Segment, Card } from 'semantic-ui-react'
+import { Segment, Card, Button, Icon } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 
@@ -10,6 +10,18 @@ export class MealCard extends React.Component {
   state = {
     diningWithUser: {},
     mealInfo: {}
+  }
+
+  changeStatus = (e) => {
+    api.trigger(
+      "Invites",
+      "update",
+      {
+        id: this.props.invite.id,
+        Authorization: `BEARER ${localStorage.token}`,
+        status: e.target.value
+      }
+    )
   }
 
   fetchDiningWithUserInfo = () => {
@@ -55,22 +67,19 @@ export class MealCard extends React.Component {
     return (
       <Card>
         <Card.Content>
-          <Card.Header>
+          <Card.Header style={{ marginBottom: 10 }}>
             {this.state.mealInfo.restaurant_name}
           </Card.Header>
           <Card.Description>
-
-            <p>
-              Location: {this.state.mealInfo.restaurant_address}
-            </p>
-            <p>
-              Date/Time: {
-                moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')}
-            </p>
-            <p>
-              Dining With: {this.state.diningWithUser.first_name}
-            </p>
+            <Icon name="user" size="large" style={{ marginBottom: 10 }} /> {this.state.diningWithUser.first_name} <br />
+            <Icon name="calendar" size="large" style={{ marginBottom: 10 }} />
+            {moment(this.state.mealInfo.starts_at).format('MM/DD/YYYY h:mm a')} <br />
+            <Icon name="home" size="large" style={{ marginBottom: 10 }} />{this.state.mealInfo.restaurant_address} <br />
+            <Icon name="phone" size="large" style={{ marginBottom: 10 }} />{this.state.mealInfo.restaurant_phone}
           </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <Button fluid color="red" onClick={this.changeStatus} value="cancelled">Cancel Meal</Button>
         </Card.Content>
 
       </Card>

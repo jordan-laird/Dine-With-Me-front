@@ -8,8 +8,9 @@ import { Inbox } from './views/Inbox.js'
 import { Signup } from './views/Signup.js';
 import { MyInvites } from './views/MyInvites.js'
 import { MyMeals } from './views/MyMeals.js'
+import { LandingPage } from './views/LandingPage.js'
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 class App extends Component {
@@ -19,12 +20,14 @@ class App extends Component {
         <div>
           <NavBar />
           <Switch>
-            <Route exact path="/" component={Login} />
-            <Route path="/register" component={Signup} />
             <Route path="/home" component={Home} />
             <Route path="/inbox" component={Inbox} />
             <Route path="/myinvites" component={MyInvites} />
             <Route path="/mymeals" component={MyMeals} />
+            {/* <Route exact path="/" component={LandingPage} /> */}
+            <Route path="/register" component={Signup} />
+            <Route exact path="/" component={Login} />
+            }
           </Switch>
         </div>
       </BrowserRouter>

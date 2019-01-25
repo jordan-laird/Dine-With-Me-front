@@ -1,10 +1,10 @@
 import React from 'react'
-import { Segment, Card } from 'semantic-ui-react'
+import { Segment, Card, Container } from 'semantic-ui-react'
 import { ReceivedInvite } from '../components/ReceivedInvite.js'
 import { SentInvite } from '../components/SentInvite.js'
 import * as moment from 'moment';
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 
@@ -14,13 +14,10 @@ export class MyInvites extends React.Component {
     receivedInvites: []
   }
 
-  fetchMySentInvites = (invites) => {
+  sortInvites = (invites) => {
     let mySentInvites = invites.filter(invite => invite.sender_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at)))
-    this.setState({ sentInvites: mySentInvites })
-  }
-  fetchMyReceivedInvites = (invites) => {
     let myReceivedInvites = invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at)))
-    this.setState({ receivedInvites: myReceivedInvites })
+    this.setState({ sentInvites: mySentInvites, receivedInvites: myReceivedInvites })
   }
 
   componentDidMount() {
@@ -32,33 +29,37 @@ export class MyInvites extends React.Component {
         userID: localStorage.userID
       },
       (invites) => {
-        this.fetchMySentInvites(invites)
-        this.fetchMyReceivedInvites(invites)
+        this.sortInvites(invites)
       }
     )
   }
   render() {
     return (
       <div>
-        <Segment style={{ marginTop: 100, marginBottom: 30 }}>
-          <h2>Received Invites</h2>
-          <Card.Group style={{ marginTop: 100 }}>
+        <Container style={{ marginTop: 100, marginBottom: 30 }}>
+
+          <h2 style={{ textAlign: 'center' }}>Received Invites</h2>
+
+          <Card.Group style={{ marginTop: 50 }} itemsPerRow={4}>
             {this.state.receivedInvites.map(invite =>
               <ReceivedInvite invite={invite}></ReceivedInvite>)}
 
           </Card.Group>
-        </Segment>
-        <Segment>
-          <h2>Sent Invites</h2>
-          <Card.Group style={{ marginTop: 100 }}>
+          {/* </Segment> */}
+
+        </Container>
+        {/* <Segment style={{ marginTop: 100, marginBottom: 30 }}> */}
+        <Container>
+          <h2 style={{ textAlign: "center" }}>Sent Invites</h2>
+          <Card.Group style={{ marginTop: 50 }} itemsPerRow={4}>
             {this.state.sentInvites.map(invite =>
               <SentInvite invite={invite}></SentInvite>)}
 
           </Card.Group>
 
-        </Segment>
+        </Container>
 
-      </div>
+      </div >
     )
   }
 

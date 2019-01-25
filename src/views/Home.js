@@ -3,7 +3,7 @@ import { Container, Button, Image } from 'semantic-ui-react';
 import { RestaurantsList } from '../components/RestaurantsList.js';
 import { SidebarExampleVisible } from '../components/SideBar.js'
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 let controllers = ['Users', 'Invites', 'Messages', 'Meals'];
 const allRestaurants = [];
@@ -39,15 +39,17 @@ export class Home extends React.Component {
   };
 
   fetchUserInfo = () => {
-    api.subscribe(
-      'Users',
-      'show',
-      {
-        id: localStorage.userID,
-        Authorization: `BEARER ${localStorage.token}`
-      },
-      (userInfo) => this.setState({ user: { ...userInfo } })
-    );
+    return new Promise(resolve => {
+      api.subscribe(
+        'Users',
+        'show',
+        {
+          id: localStorage.userID,
+          Authorization: `BEARER ${localStorage.token}`
+        },
+        (userInfo) => this.setState({ user: { ...userInfo } }, resolve)
+      );
+    })
   };
   getLocation = () => {
     navigator.geolocation
@@ -55,6 +57,7 @@ export class Home extends React.Component {
       : alert('Geolocation is not supported');
   };
   setLocation = (position) => {
+    this.setState({ restaurantList: [] })
     api.trigger('Users', 'update', {
       id: localStorage.userID,
       lat: position.coords.latitude,
@@ -66,10 +69,10 @@ export class Home extends React.Component {
   fetchNearbyRestaurants = () => {
     return api.subscribe(
       'Restaurants',
-      'create',
+      'index',
       {
-        lat: this.state.user.lat,
-        long: this.state.user.long,
+        // lat: this.state.user.lat,
+        // long: this.state.user.long,
         Authorization: `BEARER ${localStorage.token}`
       },
       (restaurants) => {
@@ -80,56 +83,63 @@ export class Home extends React.Component {
     );
   };
 
-  fetchNearbyUsers = (userList) => {
-    filteredUserList = userList.filter(
-      (user) =>
-        user.id != localStorage.userID &&
-        this.calculateDistance(
-          user.lat,
-          this.state.user.lat,
-          user.long,
-          this.state.user.long
-        ) < 5
-    );
-    console.log(filteredUserList)
-    this.setState({ filteredUsers: filteredUserList })
+  fetchNearbyUsers = () => {
+    api.subscribe('Users', 'index', { Authorization: `BEARER ${localStorage.token}` }, userList => {
+      if (userList) {
+        filteredUserList = userList.filter(
+          (user) =>
+            user.id != localStorage.userID &&
+            this.calculateDistance(
+              user.lat,
+              this.state.user.lat,
+              user.long,
+              this.state.user.long
+            ) < 5
+        )
+        this.setState({ filteredUsers: filteredUserList })
+
+      } else return null
+
+    })
   };
 
   // api.trigger('Users', 'update', {id: 1, email: "test3", password:"123", first_name:"Jordan!", last_name:"Laird", Authorization: `BEARER ${localStorage.token}`}, console.log)
   async componentDidMount() {
     await this.fetchUserInfo();
 
-    controllers.forEach((controller) =>
-      api.subscribe(
-        controller,
-        'index',
-        {
-          Authorization: `BEARER ${localStorage.token}`,
-          userID: localStorage.userID
-        },
-        (users) => {
-          // console.log(`Mounting `, users);
-          this.fetchNearbyRestaurants();
-          if (controller === 'Users') {
-            this.fetchNearbyUsers(users);
-          }
-        }
-      )
-    );
+    // controllers.forEach((controller) =>
+    //   api.subscribe(
+    //     controller,
+    //     'index',
+    //     {
+    //       Authorization: `BEARER ${localStorage.token}`,
+    //       userID: localStorage.userID
+    //     },
+    //     (users) => {
+    //       // console.log(`Mounting `, users);
+    //       this.fetchNearbyRestaurants();
+    //       if (controller === 'Users') {
+    //         this.fetchNearbyUsers(users);
+    //       }
+    //     }
+    //   )
+    // );
+    this.fetchNearbyUsers();
+    this.fetchNearbyRestaurants();
   }
   render() {
     if (this.state.user) {
       // console.log('RENDERED', filteredUserList);
       return (
-        <div style={{ marginTop: 100 }}>
+        <div style={{ marginLeft: 20, marginRight: 20, marginTop: 100 }}>
           <Container>
             <Image>{this.state.user.avatar}</Image>
-            <h1>
+            <h1 style={{ color: "#0080D6", textAlign: "center" }}>
               Welcome {this.state.user.first_name}!
             </h1>
             {/* <SidebarExampleVisible /> */}
-            <Button onClick={() => this.getLocation()}>
-              Nearby Restaurants
+            <Button color="blue" fluid size='large' onClick={() => this.getLocation()}>
+              Find Restaurants Near Me
             </Button>
             <RestaurantsList
               filteredUsers={this.state.filteredUsers}

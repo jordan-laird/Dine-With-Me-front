@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Container, Menu, Icon } from 'semantic-ui-react';
 import WarpCable from 'warp-cable-client';
 import * as moment from 'moment'
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
 let api = WarpCable(API_DOMAIN);
 let unreadMessages = [];
 let pendingInvites = [];
@@ -40,11 +40,15 @@ class _NavBar extends React.Component {
       return unreadMessages.length
   }
   filterPendingInvites = () => {
-    if (this.state.invites ? pendingInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at))) : null)
+    if (Array.isArray(this.state.invites)) {
+      pendingInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID && invite.status == "pending" && moment().isBefore(moment(invite.meal.starts_at)))
       return pendingInvites.length
+
+    }
+    else return 0
   }
   filterAcceptedInvites = () => {
-    if (this.state.invites) {
+    if (Array.isArray(this.state.invites)) {
       acceptedInvites = this.state.invites.filter(invite => invite.receiver_id == localStorage.userID || invite.sender_id == localStorage.userID)
 
       let filteredInvites = acceptedInvites.filter(invite => invite.status == "accepted" && moment().isBefore(moment(invite.meal.starts_at)))
@@ -52,14 +56,14 @@ class _NavBar extends React.Component {
       return filteredInvites.length
 
     } else {
-      return null
+      return 0
     }
   }
 
   render() {
     return (
       <div>
-        <Menu fixed="top" inverted>
+        <Menu color="blue" fixed="top" inverted fluid stackable >
           <Container>
             <Menu.Item header>
               {/* <Image
@@ -84,14 +88,14 @@ class _NavBar extends React.Component {
             ) : null} */}
             {localStorage.getItem('token') ? (
               <Menu.Item as="a" onClick={() => this.goTo(`/myinvites`)}>
-                {this.state.messages
+                {this.state.invites
                   ? `Pending Invites ( ${this.filterPendingInvites()} )`
                   : "Pending Invites"}
               </Menu.Item>
             ) : null}
             {localStorage.getItem('token') ? (
               <Menu.Item as="a" onClick={() => this.goTo(`/mymeals`)}>
-                {this.state.messages
+                {this.state.invites
                   ? `Upcoming Meals ( ${this.filterAcceptedInvites()} )`
                   : "Upcoming Meals"}
               </Menu.Item>
