@@ -3,7 +3,7 @@ import { Container, Button, Image } from 'semantic-ui-react';
 import { RestaurantsList } from '../components/RestaurantsList.js';
 import { SidebarExampleVisible } from '../components/SideBar.js'
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://10.185.0.217:3000/cable';
+const API_DOMAIN = 'ws://localhost:3000/cable';
 let api = WarpCable(API_DOMAIN);
 let controllers = ['Users', 'Invites', 'Messages', 'Meals'];
 const allRestaurants = [];
@@ -79,13 +79,14 @@ export class Home extends React.Component {
         this.setState({
           restaurantList: restaurants
         });
+        console.log("HERE", this.state.restaurantList)
       }
     );
   };
 
   fetchNearbyUsers = () => {
     api.subscribe('Users', 'index', { Authorization: `BEARER ${localStorage.token}` }, userList => {
-      if (userList) {
+      if (Array.isArray(userList)) {
         filteredUserList = userList.filter(
           (user) =>
             user.id != localStorage.userID &&

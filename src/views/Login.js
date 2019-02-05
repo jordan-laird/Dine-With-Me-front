@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom'
 
 export class Login extends React.Component {
   login = (e) => {
+    console.log(e.target.emailInput.value)
     e.preventDefault();
-    fetch('http://10.185.0.217:3000/auth/', {
+    fetch('http://localhost:3000/auth/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json'
+        
       },
       body: JSON.stringify({
         email: e.target.emailInput.value,
@@ -18,7 +19,7 @@ export class Login extends React.Component {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result)
+        console.log('HERE',result)
         if (!result.error) {
           localStorage.setItem('token', result.token);
           localStorage.setItem('userID', result.user.id);

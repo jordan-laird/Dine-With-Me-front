@@ -13,6 +13,7 @@ export class RestaurantContainer extends React.Component {
     this.props.history.push(url);
   };
   render() {
+    console.log(this.props.restaurant)
     return (
       <Card color="blue">
         <Card.Content>

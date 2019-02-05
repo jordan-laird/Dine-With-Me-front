@@ -2,11 +2,14 @@ import React from 'react';
 import { Card, Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
 import { RestaurantContainer } from './RestaurantContainer';
 
+
 export class RestaurantsList extends React.Component {
+  
+  
   render() {
     let sortedList = this.props.restaurantList.sort((a, b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0))
-    {
-      if (this.props.restaurantList.length > 0) {
+      if (this.props.restaurantList) {
+        console.log('SORTED', sortedList)
         return (
           <Card.Group itemsPerRow={4} style={{ marginTop: 30 }}>
             {
@@ -36,6 +39,6 @@ export class RestaurantsList extends React.Component {
       }
     }
   }
-}
+
 
 export default RestaurantsList;
