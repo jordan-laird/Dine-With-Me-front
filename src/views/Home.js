@@ -3,7 +3,7 @@ import { Container, Button, Image } from 'semantic-ui-react';
 import { RestaurantsList } from '../components/RestaurantsList.js';
 import { SidebarExampleVisible } from '../components/SideBar.js'
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://dine-with-me-api.herokuapp.com/cable';
+const API_DOMAIN = 'wss://dine-with-me-api.herokuapp.com/cable';
 let api = WarpCable(API_DOMAIN);
 let controllers = ['Users', 'Invites', 'Messages', 'Meals'];
 const allRestaurants = [];

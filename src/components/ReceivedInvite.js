@@ -2,7 +2,7 @@ import React from 'react'
 import { Segment, Button, Card, Icon } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
 import * as moment from 'moment'
-const API_DOMAIN = 'ws://dine-with-me-api.herokuapp.com/cable';
+const API_DOMAIN = 'wss://dine-with-me-api.herokuapp.com/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api
 

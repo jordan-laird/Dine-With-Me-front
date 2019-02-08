@@ -1,7 +1,7 @@
 import React from 'react'
 import WarpCable from 'warp-cable-client';
 import { Divider, Header, Image, Segment } from 'semantic-ui-react'
-const API_DOMAIN = 'ws://dine-with-me-api.herokuapp.com/cable';
+const API_DOMAIN = 'wss://dine-with-me-api.herokuapp.com/cable';
 let api = WarpCable(API_DOMAIN);
 let myMessages;
 

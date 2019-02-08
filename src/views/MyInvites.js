@@ -4,7 +4,7 @@ import { ReceivedInvite } from '../components/ReceivedInvite.js'
 import { SentInvite } from '../components/SentInvite.js'
 import * as moment from 'moment';
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://dine-with-me-api.herokuapp.com/cable';
+const API_DOMAIN = 'wss://dine-with-me-api.herokuapp.com/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 
