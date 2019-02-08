@@ -6,7 +6,7 @@ export class Login extends React.Component {
   login = (e) => {
     console.log(e.target.emailInput.value)
     e.preventDefault();
-    fetch('http://dine-with-me-api.herokuapp.com/auth/', {
+    fetch('https://dine-with-me-api.herokuapp.com/auth/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
