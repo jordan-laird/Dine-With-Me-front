@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { Segment, Card, Container } from 'semantic-ui-react'
 import WarpCable from 'warp-cable-client';
 import { MealCard } from '../components/MealCard.js'
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://dine-with-me-api.herokuapp.com/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 export class MyMeals extends React.Component {

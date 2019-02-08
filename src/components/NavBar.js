@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Container, Menu, Icon } from 'semantic-ui-react';
 import WarpCable from 'warp-cable-client';
 import * as moment from 'moment'
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://dine-with-me-api.herokuapp.com/cable';
 let api = WarpCable(API_DOMAIN);
 let unreadMessages = [];
 let pendingInvites = [];
