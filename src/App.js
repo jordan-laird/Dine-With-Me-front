@@ -10,7 +10,7 @@ import { MyInvites } from './views/MyInvites.js'
 import { MyMeals } from './views/MyMeals.js'
 import { LandingPage } from './views/LandingPage.js'
 import WarpCable from 'warp-cable-client';
-const API_DOMAIN = 'ws://localhost:3000/cable';
+const API_DOMAIN = 'ws://dine-with-me-api.herokuapp.com/cable';
 let api = WarpCable(API_DOMAIN);
 window.api = api;
 class App extends Component {
