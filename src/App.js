@@ -25,7 +25,7 @@ class App extends Component {
             <Route path="/myinvites" component={MyInvites} />
             <Route path="/mymeals" component={MyMeals} />
             {/* <Route exact path="/" component={LandingPage} /> */}
-            <Route path="/register" component={Signup} />
+            <Route path="/register" render={() => (localStorage.userID ? (<Redirect to="/home" />) : (<Signup />))} />
             <Route exact path="/" render={() => (localStorage.userID ? (<Redirect to="/home" />) : (<Login />))} />
             }
           </Switch>
