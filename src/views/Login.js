@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Form, Button, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
-export class Login extends React.Component {
+ class _Login extends React.Component {
   login = (e) => {
     console.log(e.target.emailInput.value)
     e.preventDefault();
@@ -83,4 +83,4 @@ export class Login extends React.Component {
   }
 }
 
-export default Login;
+export const Login = withRouter(_Login);
