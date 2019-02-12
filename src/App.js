@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login } from './views/Login.js';
 import { Home } from './views/Home.js';
 import { NavBar } from './components/NavBar.js';
@@ -26,7 +26,7 @@ class App extends Component {
             <Route path="/mymeals" component={MyMeals} />
             {/* <Route exact path="/" component={LandingPage} /> */}
             <Route path="/register" component={Signup} />
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" render={() => (localStorage.userID ? (<Redirect to="/home" />) : (<Login />))} />
             }
           </Switch>
         </div>
