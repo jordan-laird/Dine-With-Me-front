@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export class Signup extends React.Component {
     createAccount = e => {
         e.preventDefault();
-        fetch("http://dine-with-me-api.herokuapp.com/users/", {
+        fetch("https://dine-with-me-api.herokuapp.com/users/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
